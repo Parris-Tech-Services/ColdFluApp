@@ -1,0 +1,21 @@
+{
+  "id": "accp-2006-uacs-guideline",
+  "type": "guideline",
+  "title": "Chronic upper airway cough syndrome secondary to rhinosinus diseases (previously referred to as postnasal drip syndrome): ACCP evidence-based clinical practice guidelines",
+  "authorsOrOrganisation": [
+    "Pratter MR",
+    "American College of Chest Physicians"
+  ],
+  "publication": "Chest",
+  "publishedAt": "2006-01-01",
+  "updatedAt": null,
+  "doi": null,
+  "url": "https://journal.chestnet.org/article/S0012-3692(15)52833-X/fulltext",
+  "accessedAt": "2026-09-15",
+  "jurisdiction": "GLOBAL",
+  "language": "en",
+  "peerReviewed": true,
+  "retractedOrCorrected": false,
+  "verificationStatus": "unverified-lead-snippet-only",
+  "notes": "States explicitly that there are no significant data on efficacy of antihistamine/decongestant or nasal corticosteroids for UACS; recommendations are low level of evidence, grade B. US-centric: first-generation antihistamine/decongestant first-line does not transfer cleanly to AU practice."
+}

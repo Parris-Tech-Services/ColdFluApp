@@ -1,0 +1,22 @@
+{
+  "id": "cochrane-2014-otc-cough-cd001831",
+  "type": "systematic_review",
+  "title": "Over-the-counter (OTC) medications for acute cough in children and adults in community settings",
+  "authorsOrOrganisation": [
+    "Smith SM",
+    "Schroeder K",
+    "Fahey T"
+  ],
+  "publication": "Cochrane Database of Systematic Reviews",
+  "publishedAt": "2014-11-24",
+  "updatedAt": null,
+  "doi": "10.1002/14651858.CD001831.pub5",
+  "url": "https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD001831.pub5/full",
+  "accessedAt": "2026-09-15",
+  "jurisdiction": "GLOBAL",
+  "language": "en",
+  "peerReviewed": true,
+  "retractedOrCorrected": false,
+  "verificationStatus": "unverified-lead-snippet-only",
+  "notes": "Published 2014 - over ten years old. Check for a newer update before promotion. Population is ACUTE cough, so application to subacute/post-infectious cough is INDIRECT."
+}

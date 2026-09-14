@@ -1,0 +1,21 @@
+{
+  "id": "speich-2020-ospic-protocol-with-review",
+  "type": "other",
+  "title": "Oral corticosteroids for post-infectious cough in adults: study protocol for a double-blind randomized placebo-controlled trial in Swiss family practices (OSPIC trial)",
+  "authorsOrOrganisation": [
+    "Speich B",
+    "et al"
+  ],
+  "publication": "Trials",
+  "publishedAt": "2020-11-23",
+  "updatedAt": null,
+  "doi": "10.1186/s13063-020-04848-4",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/33225983/",
+  "accessedAt": "2026-09-15",
+  "jurisdiction": "GLOBAL",
+  "language": "en",
+  "peerReviewed": true,
+  "retractedOrCorrected": false,
+  "verificationStatus": "unverified-lead-snippet-only",
+  "notes": "This is a PROTOCOL, not a results paper. It is cited here only for its embedded summary of a prior systematic review (6 RCTs, no clear patient-relevant benefit). The trial RESULTS may now be published - locating them is a priority follow-up."
+}

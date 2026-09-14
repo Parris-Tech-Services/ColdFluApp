@@ -1,0 +1,580 @@
+{
+  "schemaVersion": 1,
+  "id": "cough",
+  "slug": "cough",
+  "title": "Cough",
+  "description": "Partial research draft covering persistent dry cough after a respiratory infection in adults. Does not yet cover productive cough or children.",
+  "category": "symptom",
+  "status": "researching",
+  "audience": "general adult readers in Australia",
+  "jurisdictions": [
+    "GLOBAL",
+    "AU"
+  ],
+  "locale": "en-AU",
+  "summary": "A cough that continues after a cold or flu is common and usually settles on its own, though it can take several weeks. Most over-the-counter cough medicines have not been shown to work better than placebo. This draft covers what the evidence does and does not support, and when a lingering cough should be assessed rather than waited out. It is an unreviewed research draft and is not health advice.",
+  "safety": {
+    "emergencySummary": "Seek urgent medical assessment for a cough with coughing up blood, chest pain, breathlessness at rest, or a cough that is steadily getting worse rather than settling. Call 000 for severe breathing difficulty.",
+    "redFlags": [
+      {
+        "text": "Coughing up blood",
+        "action": "urgent_assessment",
+        "sourceIds": [
+          "lfa-2025-chronic-cough-adults-algorithm"
+        ]
+      },
+      {
+        "text": "Unintended weight loss alongside a persistent cough",
+        "action": "urgent_assessment",
+        "sourceIds": [
+          "lfa-2025-chronic-cough-adults-algorithm"
+        ]
+      },
+      {
+        "text": "A cough lasting more than eight weeks in an adult",
+        "action": "medical_advice",
+        "sourceIds": [
+          "lfa-2025-chronic-cough-adults-algorithm",
+          "cicada-2024-mja-position-statement"
+        ]
+      },
+      {
+        "text": "A cough that persists beyond six weeks with no clear cause identified",
+        "action": "medical_advice",
+        "sourceIds": [
+          "king-2022-ajgp-viral-persistent-cough"
+        ]
+      }
+    ],
+    "vulnerableGroups": [
+      {
+        "text": "People with asthma or other chronic lung disease, in whom a respiratory infection can destabilise the underlying condition and who recover more slowly",
+        "action": "medical_advice",
+        "sourceIds": [
+          "king-2022-ajgp-viral-persistent-cough",
+          "aah-2025-australian-asthma-handbook"
+        ]
+      },
+      {
+        "text": "Aboriginal and Torres Strait Islander adults and children, identified as a high-risk group in Australian chronic cough guidance",
+        "action": "medical_advice",
+        "sourceIds": [
+          "cicada-2024-mja-position-statement"
+        ]
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "cough-postinfectious-self-limiting",
+      "statement": "Cough that persists after a respiratory infection usually resolves without specific treatment, typically within eight weeks.",
+      "outcome": "illness_duration",
+      "population": "adults following an acute respiratory tract infection",
+      "intervention": {
+        "name": "no specific treatment (natural history)",
+        "formulation": null,
+        "regimenStudied": null
+      },
+      "comparison": null,
+      "evidence": {
+        "certainty": "low",
+        "direction": "no_clear_effect",
+        "effectSummary": "Subacute post-infectious cough is defined as lasting no more than eight weeks and resolving on its own.",
+        "rationale": "Definitional and observational rather than experimental. The ACCP definition is nearly 20 years old; Australian duration data are from a single small primary-care series known here only at second hand."
+      },
+      "sourceIds": [
+        "accp-2006-postinfectious-cough-guideline",
+        "king-2022-ajgp-viral-persistent-cough",
+        "jones-2002-afp-duration-of-cough"
+      ],
+      "caveats": [
+        "Duration percentages at 3, 4, 6 and 8 weeks are NOT available in the literature located by this return.",
+        "Jones 2002 is an unverified secondary citation and must be obtained before any figure is published."
+      ],
+      "jurisdictions": [
+        "GLOBAL"
+      ],
+      "reviewedAt": null
+    },
+    {
+      "id": "cough-otc-mixtures-no-clear-benefit",
+      "statement": "Over-the-counter cough mixtures have not been shown to relieve cough better than placebo.",
+      "outcome": "symptom_comfort",
+      "population": "adults with acute cough",
+      "intervention": {
+        "name": "over-the-counter cough and expectorant mixtures",
+        "formulation": "oral liquid",
+        "regimenStudied": null
+      },
+      "comparison": "placebo",
+      "evidence": {
+        "certainty": "low",
+        "direction": "no_clear_effect",
+        "effectSummary": "Cochrane concluded there is no good evidence for or against effectiveness; Australian GP guidance states these mixtures have long failed to demonstrate benefit beyond placebo.",
+        "rationale": "Cochrane evidence is limited by small, heterogeneous and poorly reported trials. Certainty downgraded for indirectness because the reviewed population is acute rather than subacute cough."
+      },
+      "sourceIds": [
+        "cochrane-2014-otc-cough-cd001831",
+        "king-2022-ajgp-viral-persistent-cough"
+      ],
+      "caveats": [
+        "Population is acute cough; extension to post-infectious cough is indirect.",
+        "Cochrane review is from 2014 and may have been updated."
+      ],
+      "jurisdictions": [
+        "GLOBAL"
+      ],
+      "reviewedAt": null
+    },
+    {
+      "id": "cough-dextromethorphan-uncertain",
+      "statement": "Dextromethorphan may produce a small reduction in cough symptoms in adults, but the clinical importance of that reduction is unclear.",
+      "outcome": "symptom_comfort",
+      "population": "adults with acute cough",
+      "intervention": {
+        "name": "dextromethorphan",
+        "formulation": "oral",
+        "regimenStudied": "single 30 mg dose in the trials showing an effect"
+      },
+      "comparison": "placebo",
+      "evidence": {
+        "certainty": "low",
+        "direction": "mixed",
+        "effectSummary": "Some adult trials found a statistically significant reduction in cough counts, frequency, effort and intensity; others found no effect.",
+        "rationale": "Direction is inconsistent across trials. NICE concluded the evidence was mixed and the clinical significance of any benefit unclear, with a possible increase in adverse effects."
+      },
+      "sourceIds": [
+        "cochrane-2014-otc-cough-cd001831",
+        "nice-ng120-acute-cough-evidence"
+      ],
+      "caveats": [
+        "Adverse effects reported include gastrointestinal upset and dizziness.",
+        "Serotonergic interaction risk requires pharmacist or medical advice; out of scope for this claim.",
+        "Evidence is for acute cough, not post-infectious cough."
+      ],
+      "jurisdictions": [
+        "GLOBAL"
+      ],
+      "reviewedAt": null
+    },
+    {
+      "id": "cough-codeine-no-benefit",
+      "statement": "Codeine has not been shown to reduce cough symptoms compared with placebo.",
+      "outcome": "symptom_comfort",
+      "population": "adults with acute cough",
+      "intervention": {
+        "name": "codeine",
+        "formulation": "oral",
+        "regimenStudied": null
+      },
+      "comparison": "placebo",
+      "evidence": {
+        "certainty": "low",
+        "direction": "no_clear_effect",
+        "effectSummary": "Cochrane found codeine no more effective than placebo; the NICE committee agreed codeine had no benefit on cough symptoms.",
+        "rationale": "Consistent direction across two independent syntheses, but underlying trials are small and old."
+      },
+      "sourceIds": [
+        "cochrane-2014-otc-cough-cd001831",
+        "nice-ng120-acute-cough-evidence"
+      ],
+      "caveats": [
+        "Codeine is prescription-only in Australia; availability is a jurisdiction note, not a claim.",
+        "Harms of opioid antitussives were not extracted in this return."
+      ],
+      "jurisdictions": [
+        "GLOBAL"
+      ],
+      "reviewedAt": null
+    },
+    {
+      "id": "cough-honey-children-acute",
+      "statement": "Honey probably reduces cough frequency in children with acute cough compared with no treatment.",
+      "outcome": "symptom_comfort",
+      "population": "children over 12 months with acute cough",
+      "intervention": {
+        "name": "honey",
+        "formulation": "oral",
+        "regimenStudied": "up to three days"
+      },
+      "comparison": "no treatment or placebo",
+      "evidence": {
+        "certainty": "moderate",
+        "direction": "benefit",
+        "effectSummary": "Cochrane reported a mean difference of -1.05 (95% CI -1.48 to -0.62) on a 7-point Likert cough-frequency scale versus no treatment, I-squared 0%, 2 studies, 154 children.",
+        "rationale": "Cochrane rated this comparison moderate certainty. Certainty is not downgraded further because the claim is stated only for the population actually studied."
+      },
+      "sourceIds": [
+        "cochrane-2018-honey-children-cd007094"
+      ],
+      "caveats": [
+        "Paediatric population only. This claim must NOT be restated as adult evidence.",
+        "Honey is contraindicated under 12 months of age - a separate safety item.",
+        "Most trials treated for a single night."
+      ],
+      "jurisdictions": [
+        "GLOBAL"
+      ],
+      "reviewedAt": null
+    },
+    {
+      "id": "cough-honey-coffee-adults-postinfectious",
+      "statement": "A honey and coffee preparation may reduce the severity of persistent post-infectious cough in adults.",
+      "outcome": "symptom_comfort",
+      "population": "adults with post-infectious cough lasting more than three weeks",
+      "intervention": {
+        "name": "honey plus instant coffee",
+        "formulation": "oral paste dissolved in warm water",
+        "regimenStudied": null
+      },
+      "comparison": "systemic prednisolone and guaifenesin control",
+      "evidence": {
+        "certainty": "very_low",
+        "direction": "benefit",
+        "effectSummary": "A double-blind randomised trial in 97 adults reported honey plus coffee outperformed both prednisolone and guaifenesin control.",
+        "rationale": "Downgraded heavily for very serious indirectness of setting, single research group, single centre, small sample, probable participant overlap with the same group's earlier reports, and a non-inert comparator."
+      },
+      "sourceIds": [
+        "raeessi-2013-honey-coffee-ppc-rct"
+      ],
+      "caveats": [
+        "Effect size was not extracted in this return; the full text has not been read.",
+        "Risk of bias has not been assessed.",
+        "Caffeine timing has sleep implications that are guidance, not evidence.",
+        "This is the only on-population adult trial located - do not present as a body of evidence."
+      ],
+      "jurisdictions": [
+        "GLOBAL"
+      ],
+      "reviewedAt": null
+    },
+    {
+      "id": "cough-behavioural-therapy-chronic",
+      "statement": "Speech pathology cough-suppression therapy improves chronic cough that has persisted despite medical treatment.",
+      "outcome": "symptom_comfort",
+      "population": "adults with chronic or refractory cough",
+      "intervention": {
+        "name": "speech pathology cough suppression therapy",
+        "formulation": "behavioural intervention programme",
+        "regimenStudied": null
+      },
+      "comparison": "placebo intervention or usual care",
+      "evidence": {
+        "certainty": "moderate",
+        "direction": "benefit",
+        "effectSummary": "A single-blind randomised placebo-controlled trial in 87 adults found significant improvement, replicated in a multicentre randomised trial and subsequently reviewed by Cochrane.",
+        "rationale": "Two independent randomised trials with consistent direction plus a Cochrane review. Downgraded for indirectness: the studied population is refractory chronic cough, not subacute post-infectious cough."
+      },
+      "sourceIds": [
+        "vertigan-2006-thorax-speech-pathology-rct",
+        "chamberlain-mitchell-2017-thorax-slt-rct",
+        "slinger-2019-cochrane-slt-cough-cd013067"
+      ],
+      "caveats": [
+        "Cochrane certainty ratings were NOT extracted; the stated certainty is provisional.",
+        "Trials delivered therapy by a trained clinician; self-directed technique is untested.",
+        "Applicability to cough under eight weeks is unestablished."
+      ],
+      "jurisdictions": [
+        "GLOBAL"
+      ],
+      "reviewedAt": null
+    },
+    {
+      "id": "cough-inhaled-corticosteroid-postinfectious",
+      "statement": "Inhaled corticosteroids have not been shown to produce a clinically important benefit for post-infectious cough in adults without asthma.",
+      "outcome": "symptom_comfort",
+      "population": "adults with subacute post-infectious cough and no asthma",
+      "intervention": {
+        "name": "inhaled corticosteroid",
+        "formulation": "inhaled",
+        "regimenStudied": null
+      },
+      "comparison": "placebo",
+      "evidence": {
+        "certainty": "low",
+        "direction": "no_clear_effect",
+        "effectSummary": "In a synthesis of mainly subacute cough (2 RCTs, 163 patients) inhaled corticosteroids showed a standardised mean difference of 0.42 versus placebo, against a placebo response of roughly 50-56% at two weeks; a wider review of six post-infectious cough RCTs found no clear patient-relevant benefit.",
+        "rationale": "Small number of small trials with unclear or high risk of bias, and a very large placebo response that dominates the observed change."
+      },
+      "sourceIds": [
+        "cfp-2023-bronchodilators-ics-postinfectious-cough",
+        "speich-2020-ospic-protocol-with-review"
+      ],
+      "caveats": [
+        "CRITICAL SCOPE LIMIT: the underlying trials EXCLUDED people with asthma. This claim must never be presented to, or about, people with asthma.",
+        "The OSPIC source is a protocol; its published results must be located.",
+        "Bronchodilator and combination bronchodilator claims were not separately extracted."
+      ],
+      "jurisdictions": [
+        "GLOBAL"
+      ],
+      "reviewedAt": null
+    },
+    {
+      "id": "cough-ppi-without-reflux-symptoms",
+      "statement": "Acid-suppressing medicines alone are unlikely to resolve cough in people who have no heartburn or regurgitation.",
+      "outcome": "symptom_comfort",
+      "population": "adults with chronic cough and no reflux symptoms",
+      "intervention": {
+        "name": "proton pump inhibitor",
+        "formulation": "oral",
+        "regimenStudied": null
+      },
+      "comparison": "placebo or lifestyle measures alone",
+      "evidence": {
+        "certainty": "low",
+        "direction": "no_clear_effect",
+        "effectSummary": "ACCP guidance advises that proton pump inhibitors alone are not likely to resolve cough and should not be prescribed without accompanying lifestyle modification; Australian chronic cough guidance discourages their use where reflux symptoms are absent.",
+        "rationale": "Guideline recommendations rest on low-quality evidence, but two independent guideline bodies agree on direction."
+      },
+      "sourceIds": [
+        "accp-reflux-cough-guideline-afp-summary",
+        "lfa-2025-chronic-cough-adults-algorithm"
+      ],
+      "caveats": [
+        "The AFP article is a summary; the primary CHEST guideline must be cited directly.",
+        "The Lung Foundation source is a landing-page description; the PDF itself has not been read.",
+        "Non-drug reflux measures are separate and rated separately."
+      ],
+      "jurisdictions": [
+        "GLOBAL"
+      ],
+      "reviewedAt": null
+    },
+    {
+      "id": "cough-saline-nasal-irrigation",
+      "statement": "Saline nasal irrigation may help symptoms after an upper respiratory infection, but the evidence is weak.",
+      "outcome": "symptom_comfort",
+      "population": "adults and children after an upper respiratory tract infection",
+      "intervention": {
+        "name": "saline nasal irrigation",
+        "formulation": "intranasal",
+        "regimenStudied": null
+      },
+      "comparison": "no irrigation or usual care",
+      "evidence": {
+        "certainty": "very_low",
+        "direction": "benefit",
+        "effectSummary": "Australian guidance describes possible benefit for acute URTI symptoms while noting included trials were generally small and at high risk of bias.",
+        "rationale": "Very low certainty from small, high-risk-of-bias trials. Included here because upper airway cough syndrome is described as the most common explanation for post-viral cough."
+      },
+      "sourceIds": [
+        "king-2022-ajgp-viral-persistent-cough"
+      ],
+      "caveats": [
+        "The underlying Cochrane review (CD006821) was NOT read in this return.",
+        "Cough was not the primary outcome of the underlying trials.",
+        "Water-safety instructions are a safety item, not part of this claim."
+      ],
+      "jurisdictions": [
+        "GLOBAL"
+      ],
+      "reviewedAt": null
+    },
+    {
+      "id": "cough-steam-no-duration-benefit",
+      "statement": "Steam inhalation has not been shown to shorten upper respiratory infections.",
+      "outcome": "illness_duration",
+      "population": "adults with an upper respiratory tract infection",
+      "intervention": {
+        "name": "steam inhalation",
+        "formulation": "inhaled",
+        "regimenStudied": null
+      },
+      "comparison": "no steam inhalation",
+      "evidence": {
+        "certainty": "low",
+        "direction": "no_clear_effect",
+        "effectSummary": "Australian guidance states there is no reliable evidence that steam inhalation reduces the duration of upper respiratory infections.",
+        "rationale": "Single narrative-review source with onward citation; underlying trials not examined in this return."
+      },
+      "sourceIds": [
+        "king-2022-ajgp-viral-persistent-cough"
+      ],
+      "caveats": [
+        "Comfort effects are not the same as duration effects and are not assessed here.",
+        "Scald risk is a separate safety item and is not covered by this claim."
+      ],
+      "jurisdictions": [
+        "GLOBAL"
+      ],
+      "reviewedAt": null
+    },
+    {
+      "id": "cough-extra-fluids-no-evidence",
+      "statement": "There is no randomised trial evidence that drinking more fluid than thirst dictates helps acute respiratory infections.",
+      "outcome": "hydration",
+      "population": "adults with an acute respiratory tract infection",
+      "intervention": {
+        "name": "increased fluid intake",
+        "formulation": "oral",
+        "regimenStudied": null
+      },
+      "comparison": "usual fluid intake",
+      "evidence": {
+        "certainty": "very_low",
+        "direction": "no_clear_effect",
+        "effectSummary": "Australian guidance states there is no randomised controlled trial evidence to recommend increased fluid intake for acute respiratory infections.",
+        "rationale": "Absence of evidence rather than evidence of absence; the underlying Cochrane review reported no eligible trials."
+      },
+      "sourceIds": [
+        "king-2022-ajgp-viral-persistent-cough"
+      ],
+      "caveats": [
+        "Absence of trial evidence must not be presented to readers as evidence of harm or of no effect.",
+        "Normal hydration advice is unaffected by this claim."
+      ],
+      "jurisdictions": [
+        "GLOBAL"
+      ],
+      "reviewedAt": null
+    }
+  ],
+  "practicalGuidance": [
+    {
+      "title": "Expect it to take time",
+      "text": "A cough after a respiratory infection commonly lasts several weeks and usually settles without treatment.",
+      "kind": "monitor",
+      "professionalAdviceRequired": false,
+      "sourceIds": [
+        "accp-2006-postinfectious-cough-guideline",
+        "king-2022-ajgp-viral-persistent-cough"
+      ]
+    },
+    {
+      "title": "Cough mixtures are unlikely to help",
+      "text": "Over-the-counter cough mixtures have not been shown to work better than placebo. The soothing syrup base may be doing most of the work.",
+      "kind": "avoid",
+      "professionalAdviceRequired": false,
+      "sourceIds": [
+        "king-2022-ajgp-viral-persistent-cough",
+        "cochrane-2014-otc-cough-cd001831"
+      ]
+    },
+    {
+      "title": "Antibiotics do not treat a viral cough",
+      "text": "Discoloured sputum correlates poorly with bacterial infection and does not by itself indicate a need for antibiotics.",
+      "kind": "avoid",
+      "professionalAdviceRequired": false,
+      "sourceIds": [
+        "king-2022-ajgp-viral-persistent-cough"
+      ]
+    },
+    {
+      "title": "When to have a lingering cough checked",
+      "text": "Assessment of an adult with chronic cough should include a chest x-ray and spirometry. Speak to a doctor if a cough lasts beyond about six to eight weeks, or sooner if red flags appear.",
+      "kind": "care_pathway",
+      "professionalAdviceRequired": true,
+      "sourceIds": [
+        "cicada-2024-mja-position-statement",
+        "king-2022-ajgp-viral-persistent-cough"
+      ]
+    },
+    {
+      "title": "Ask a pharmacist before using decongestants or cough suppressants",
+      "text": "Suitability depends on your other medicines and health conditions, including heart conditions and blood pressure.",
+      "kind": "medicine",
+      "professionalAdviceRequired": true,
+      "sourceIds": [
+        "king-2022-ajgp-viral-persistent-cough"
+      ]
+    }
+  ],
+  "myths": [
+    {
+      "myth": "Green or yellow phlegm means you need antibiotics.",
+      "correction": "Sputum colour correlates poorly with bacterial infection, and people with discoloured sputum who received antibiotics did not recover faster.",
+      "sourceIds": [
+        "king-2022-ajgp-viral-persistent-cough"
+      ]
+    },
+    {
+      "myth": "A cough lasting more than a week or two means something is wrong.",
+      "correction": "Cough commonly persists for weeks after a respiratory infection and usually resolves on its own, although persistence beyond eight weeks warrants assessment.",
+      "sourceIds": [
+        "accp-2006-postinfectious-cough-guideline",
+        "king-2022-ajgp-viral-persistent-cough"
+      ]
+    },
+    {
+      "myth": "Drinking lots of extra fluid will shift a cough faster.",
+      "correction": "There is no randomised trial evidence supporting increased fluid intake for acute respiratory infections.",
+      "sourceIds": [
+        "king-2022-ajgp-viral-persistent-cough"
+      ]
+    }
+  ],
+  "jurisdictionNotes": [
+    {
+      "jurisdiction": "AU",
+      "text": "Pholcodine-containing cough medicines were cancelled from the Australian Register of Therapeutic Goods and recalled from pharmacies in 2023 because of a link to anaphylactic reactions to neuromuscular blocking agents used in general anaesthesia. Anyone who has used a pholcodine product should tell their anaesthetist before a general anaesthetic.",
+      "effectiveAt": "2023-03-29",
+      "sourceIds": [
+        "tga-2023-pholcodine-cancellation"
+      ]
+    },
+    {
+      "jurisdiction": "AU",
+      "text": "Codeine-containing medicines became prescription-only in Australia in February 2018.",
+      "effectiveAt": "2018-02-01",
+      "sourceIds": [
+        "nice-ng120-acute-cough-evidence"
+      ]
+    },
+    {
+      "jurisdiction": "AU",
+      "text": "The Australian Asthma Handbook was updated in September 2025 to prioritise combination inhaled corticosteroid-formoterol inhalers and to recommend strongly against treatment with short-acting beta-2 agonists alone. People with asthma whose cough persists after an infection should have their asthma management reviewed.",
+      "effectiveAt": "2025-09-01",
+      "sourceIds": [
+        "aah-2025-australian-asthma-handbook"
+      ]
+    },
+    {
+      "jurisdiction": "AU",
+      "text": "Australia recorded more than 57,000 pertussis cases in 2024, the highest annual total since national monitoring began in 1991; activity in early 2026 returned to levels typically seen between outbreaks. Adults with a persistent paroxysmal cough may warrant pertussis testing.",
+      "effectiveAt": "2026-02-19",
+      "sourceIds": [
+        "cdc-au-2026-whooping-cough-update"
+      ]
+    }
+  ],
+  "relatedModules": [
+    "sore-throat",
+    "fever",
+    "cold-flu-covid-strep-allergies",
+    "when-to-seek-care"
+  ],
+  "sourceIds": [
+    "aah-2025-australian-asthma-handbook",
+    "accp-2006-postinfectious-cough-guideline",
+    "accp-2006-uacs-guideline",
+    "accp-reflux-cough-guideline-afp-summary",
+    "cdc-au-2026-whooping-cough-update",
+    "cfp-2023-bronchodilators-ics-postinfectious-cough",
+    "chamberlain-mitchell-2017-thorax-slt-rct",
+    "cicada-2024-mja-position-statement",
+    "cochrane-2014-otc-cough-cd001831",
+    "cochrane-2018-honey-children-cd007094",
+    "jones-2002-afp-duration-of-cough",
+    "king-2022-ajgp-viral-persistent-cough",
+    "lfa-2025-chronic-cough-adults-algorithm",
+    "nice-ng120-acute-cough-evidence",
+    "raeessi-2013-honey-coffee-ppc-rct",
+    "slinger-2019-cochrane-slt-cough-cd013067",
+    "speich-2020-ospic-protocol-with-review",
+    "tga-2023-pholcodine-cancellation",
+    "thompson-2013-bmj-symptom-duration",
+    "vertigan-2006-thorax-speech-pathology-rct"
+  ],
+  "review": {
+    "researchOwner": null,
+    "evidenceReviewer": null,
+    "clinicalReviewer": null,
+    "editorialReviewer": null,
+    "lastEvidenceSearch": null,
+    "lastClinicallyReviewed": null,
+    "nextReviewDue": null,
+    "changeSummary": null
+  }
+}
