@@ -9,6 +9,10 @@ An evidence-led, modular public knowledge base for cold, influenza, and related 
 
 - [Vision and principles](docs/VISION.md)
 - [Scope and module map](docs/SCOPE.md)
+- [Current coverage map](docs/coverage-map.md)
+- [Health topic master roadmap](docs/HEALTH_TOPIC_MASTER_ROADMAP.md)
+- [Topic gap analysis](docs/topic-gap-analysis.md)
+- [Draft authoritative source register](docs/source-register-draft.md)
 - [Content model](docs/CONTENT_SCHEMA.md)
 - [Research and review workflow](docs/RESEARCH_AND_REVIEW.md)
 - [Product requirements](docs/PRODUCT_REQUIREMENTS.md)
@@ -53,6 +57,8 @@ Only modules with `status: published` may be included in a production build. AI 
 ## Product direction
 
 The first implementation should be one complete vertical slice using a single reviewed module. The likely stack is Next.js, TypeScript, schema-validated content files, and static generation. A database, accounts, and CMS are deferred until they solve a demonstrated need.
+
+The broader health-topic roadmap is deliberately a planning inventory, not a claim that general-health material is ready to use clinically. New domains still need appropriate evidence work, governance and accountable review.
 
 ## Repository map
 
