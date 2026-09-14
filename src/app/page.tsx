@@ -9,31 +9,65 @@ export default async function Home() {
     <>
       <section className="card" style={{ marginBottom: "1.5rem" }}>
         <p className="eyebrow">Australian-first · evidence governance</p>
-        <h1>Public knowledge base status</h1>
-        <p className="lede">This project turns respiratory self-care research into structured, reviewable modules that can be explored safely without presenting them as approved medical advice.</p>
+        <h1>Health Reference</h1>
+        <p className="lede">
+          A broad health research and learning base for households, carers, first aiders and health workers. Cold, flu and respiratory health remain the first controlled clinical-content collection.
+        </p>
         <p style={{ marginTop: "1rem" }}>
-          <Link href="/modules" style={{ fontWeight: 700 }}>Browse the module index</Link> · <Link href="/sources" style={{ fontWeight: 700 }}>Browse source records</Link> · <Link href="/about/methodology" style={{ fontWeight: 700 }}>Read the methodology</Link>
+          <Link href="/health-reference" className="button">Open Health Reference</Link>
         </p>
       </section>
+
       <section className="card-grid" style={{ marginTop: "1.5rem" }}>
-        {published.map((module) => {
-          const visual = getModuleVisual(module.slug);
-          return (
-            <article className="card" key={module.slug}>
-              <Image src={visual.src} alt={visual.alt} className="module-card-image" width={800} height={480} />
-              <h2><Link href={`/modules/${module.slug}`}>{module.title}</Link></h2>
-              <p>{module.description}</p>
-            </article>
-          );
-        })}
+        <article className="card">
+          <h2><Link href="/health-reference/roadmap">What health topics are covered?</Link></h2>
+          <p>See the full roadmap: first aid, child health, medicines, heart, sleep, exercise, nutrition, mental health, neurodivergence, pregnancy, aged care, workplace health and more.</p>
+        </article>
+        <article className="card">
+          <h2><Link href="/health-reference/resources">Listen, watch and read</Link></h2>
+          <p>Open curated podcasts, videos, Australian guidelines, trusted references and deeper research.</p>
+        </article>
+        <article className="card">
+          <h2><Link href="/health-reference/quizzes">Health learning quizzes</Link></h2>
+          <p>Test what you know across first aid, medicines, kids, sleep, heart health, nutrition, nursing and other topics.</p>
+        </article>
+        <article className="card">
+          <h2><Link href="/health-reference/apps">Health app ecosystem</Link></h2>
+          <p>See where HealthLens and HeartCalm fit, and why personal health data stays separate from this public reference.</p>
+        </article>
       </section>
+
+      {published.length > 0 ? (
+        <section style={{ marginTop: "2rem" }}>
+          <h2>Published health modules</h2>
+          <div className="card-grid">
+            {published.map((module) => {
+              const visual = getModuleVisual(module.slug);
+              return (
+                <article className="card" key={module.slug}>
+                  <Image src={visual.src} alt={visual.alt} className="module-card-image" width={800} height={480} />
+                  <h3><Link href={`/modules/${module.slug}`}>{module.title}</Link></h3>
+                  <p>{module.description}</p>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      ) : (
+        <section className="notice">
+          <h2>Clinical-content publication is still gated</h2>
+          <p>
+            The broader roadmap, learning resources and quizzes are visible now, but no medical module is labelled published until claim-level source verification and independent evidence, clinical and editorial review are complete.
+          </p>
+        </section>
+      )}
+
       <section className="card" style={{ marginTop: "1.5rem" }}>
-        <h2>Support and policy</h2>
+        <h2>Evidence and policy</h2>
         <p>
-          <Link href="/research-preview/media">Media library</Link> · <Link href="/about/accessibility">Accessibility</Link> · <Link href="/about/privacy">Privacy</Link> · <Link href="/about/corrections">Corrections</Link>
+          <Link href="/modules">Modules</Link> · <Link href="/sources">Sources</Link> · <Link href="/about/methodology">Methodology</Link> · <Link href="/about/accessibility">Accessibility</Link> · <Link href="/about/privacy">Privacy</Link> · <Link href="/about/transparency">Transparency</Link> · <Link href="/about/corrections">Corrections</Link>
         </p>
       </section>
-      {published.length === 0 ? <section className="notice"><h2>No medical modules are published</h2><p>Research drafts are not exposed by this application. Publication requires claim-level source verification and independent evidence, clinical and editorial review.</p></section> : null}
     </>
   );
 }
