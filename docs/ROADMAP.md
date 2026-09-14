@@ -69,3 +69,20 @@ Goal: add countries without weakening local accuracy.
 - Test translated content with native speakers and target users.
 
 Exit per country: the local pack has ownership, complete safety paths, and a funded maintenance plan.
+
+---
+
+## 2026-09-15 sequencing note — expansion without bypassing the bottleneck
+
+The broader health-topic inventory in [`HEALTH_TOPIC_MASTER_ROADMAP.md`](HEALTH_TOPIC_MASTER_ROADMAP.md) is intentionally larger than the initial respiratory catalogue. It does **not** replace the phases above or make unreviewed material publishable.
+
+The practical sequencing is:
+
+1. **Prove one module end to end.** Take the closest bounded module through evidence, clinical, editorial and accessibility review and publish it through the existing gates.
+2. **Build the safety spine next.** Prioritise `when-to-seek-care`, respiratory differentiation boundaries, fever, cough and paediatric respiratory content before lower-risk breadth.
+3. **Treat medicines as a separate high-risk workstream.** OTC active ingredients, accidental double-dosing and population-specific medicine safety need pharmacy/clinical review appropriate to the claim.
+4. **Expand populations and overlays deliberately.** Pregnancy and breastfeeding should be separable where recommendations differ; renal, liver, diabetes, anticoagulant and polypharmacy overlays need dedicated evidence work.
+5. **Use curated authoritative links for breadth while original content catches up.** A maintained source directory can be useful sooner than hundreds of unreviewed modules.
+6. **Make general-health scope an explicit governance decision.** See proposed D-014 in `DECISIONS.md`, plus [`topic-gap-analysis.md`](topic-gap-analysis.md).
+
+Parallel work that does not require publishing new health claims can continue at any time: reviewer recruitment, source-verification tooling, schema improvements, evidence-gap tracking, link checking, accessibility work and de-identified topic planning.
