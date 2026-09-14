@@ -80,3 +80,14 @@ This lightweight log records decisions that constrain future work. Add dated ent
 
 **Decision:** Provider-specific ChatGPT or Claude sessions are optional discovery inputs, not required research gates. When no external session or unchanged return is available, Codex may research the assigned module directly from exact primary and authoritative sources using the same intake, provenance and review controls. No assignment may be marked returned merely because a prompt exists.
 **Reason:** The repository cannot launch or stall based on access to a named model provider. Evidence quality depends on verified sources, reproducible methods and accountable review rather than which drafting model produced an initial package.
+
+## D-014 — Scope: stay respiratory, or become a general health base?
+
+**Status:** proposed  
+**Date proposed:** 2026-09-15  
+**Decision:** Not yet decided. Choose deliberately between: (A) finish the original respiratory catalogue first; (B) expand later into adjacent acute-health topics; (C) broaden into a general-health knowledge base with domain-specific governance and reviewers; or (D) keep this evidence base narrow while building a parallel curated directory of authoritative health resources for breadth.  
+**Reason:** A request has been made to turn the project into a resource for many areas of health, including household illness, first aid, chronic disease, child/family health, medicines, mental health, exercise, nutrition and workplace use. That breadth is valuable, but it materially changes the reviewer pool, safety governance, maintenance burden and project scale. The current repository still has 0 published modules, so scope expansion must not be mistaken for reviewed clinical coverage.
+
+**Current recommendation:** A now, D in parallel, B later; do not treat C as an automatic extension of the current project. If C is chosen, update the mission, governance model, reviewer requirements and publication controls before presenting the broader roadmap as an implementation commitment.
+
+**Non-negotiable consequence regardless of option:** unreviewed repository material must not be represented as a clinical reference for nursing practice, workplace first aid or care of sick children. Those uses require current authoritative sources and appropriately reviewed content.
