@@ -6,10 +6,10 @@
   "ignorePaths": ["inputs/**", "archive/**", ".next/**", "node_modules/**", "public/**", "content/research/**", "content/modules/**", "content/sources/**"],
   "words": [
     "ambroxol", "Anneliese", "antiplatelets", "ANZCOR", "APNA", "artefact", "artefacts", "benzydamine", "bronchiolitis", "bronchoconstriction",
-    "cardiometabolic", "cardiopulmonary", "Chaaban", "clinicalguide", "Cochrane", "coldflu", "COMISA", "CPAP", "Crossmark", "Crossref", "Cureus",
-    "DCBA", "decongestant", "decongestants", "DRSABCD", "efetch", "Embase", "epistemonikos", "esearch", "esummary", "exertional", "factsheet",
+    "cardiometabolic", "cardiopulmonary", "Chaaban", "clinicalguide", "CODEOWNERS", "Cochrane", "coldflu", "COMISA", "CPAP", "Crossmark", "Crossref", "Cureus",
+    "DCBA", "decongestant", "decongestants", "Dependabot", "DRSABCD", "E2E", "efetch", "Embase", "epistemonikos", "esearch", "esummary", "exertional", "factsheet",
     "factsheets", "Fitbit", "flurbiprofen", "frontmatter", "gastro", "Glasziou", "Goodfellow", "GORD", "healthdirect", "Healthtalk", "Holter",
-    "immunocompromise", "immunocompromised", "inspectable", "Jaccard", "jurisdictional", "kidsinfo", "lede", "lozenge", "lozenges", "MEDLINE",
+    "immunocompromise", "immunocompromised", "inspectable", "Jaccard", "jurisdictional", "kidsinfo", "lede", "lockfile", "lockfiles", "lozenge", "lozenges", "MEDLINE",
     "mepolizumab", "metacresol", "Mohamad", "mojibake", "nasogastric", "NCBI", "NDIS", "Neti", "neurodivergence", "NHMRC", "noarchive",
     "nofollow", "noindex", "NSAID", "paracetamol", "paediatric", "paediatrics", "PCOS", "PESE", "pharyngitis", "playwright", "PMCID", "polypharmacy",
     "PostCSS", "preidentified", "pregnancybirthbaby", "presyncope", "pseudoephedrine", "PTSD", "PubMed", "RACP", "Raeessi", "renderable", "retmax",
