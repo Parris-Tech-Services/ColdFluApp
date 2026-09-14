@@ -1,0 +1,20 @@
+{
+  "id": "aah-2025-australian-asthma-handbook",
+  "type": "guideline",
+  "title": "Australian Asthma Handbook (September 2025 update): diagnosing asthma in adults and adolescents",
+  "authorsOrOrganisation": [
+    "National Asthma Council Australia"
+  ],
+  "publication": "Australian Asthma Handbook",
+  "publishedAt": null,
+  "updatedAt": "2025-09-01",
+  "doi": null,
+  "url": "https://www.asthmahandbook.org.au/diagnosis/adults-and-adolescents/diagnosing-asthma-in-adults-and-adolescents",
+  "accessedAt": "2026-09-15",
+  "jurisdiction": "AU",
+  "language": "en",
+  "peerReviewed": false,
+  "retractedOrCorrected": false,
+  "verificationStatus": "unverified-lead-snippet-only",
+  "notes": "AU-specific and safety-relevant: prioritises ICS-formoterol combination inhalers and recommends strongly against SABA-alone treatment. Living guideline - always re-check currency at review. Belongs in jurisdictionNotes, not global claims."
+}

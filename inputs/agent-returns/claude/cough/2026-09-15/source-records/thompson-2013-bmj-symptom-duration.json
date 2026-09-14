@@ -1,0 +1,25 @@
+{
+  "id": "thompson-2013-bmj-symptom-duration",
+  "type": "systematic_review",
+  "title": "Duration of symptoms of respiratory tract infections in children: systematic review",
+  "authorsOrOrganisation": [
+    "Thompson M",
+    "Vodicka TA",
+    "Blair PS",
+    "Buckley DI",
+    "Heneghan C",
+    "Hay AD"
+  ],
+  "publication": "BMJ",
+  "publishedAt": "2013-01-01",
+  "updatedAt": null,
+  "doi": "10.1136/bmj.f7027",
+  "url": null,
+  "accessedAt": "2026-09-15",
+  "jurisdiction": "GLOBAL",
+  "language": "en",
+  "peerReviewed": true,
+  "retractedOrCorrected": false,
+  "verificationStatus": "unverified-secondary-citation",
+  "notes": "SECONDARY CITATION via King 2022. Paediatric population - the '25 days to 90% recovery' figure must NOT be presented as adult data."
+}
