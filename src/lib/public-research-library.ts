@@ -40,12 +40,19 @@ const programmeDocs = new Set([
   "SOURCE_REGISTER_DRAFT.md",
 ]);
 
+const legacyPrototypeResearchPrefix = "chatgpt-prototype-2026-07-15/package/research/";
+
 const roots: RootDefinition[] = [
   { directory: "content/modules", collection: "Canonical modules", status: "reviewed pipeline" },
   { directory: "content/research", collection: "Research packages", status: "research draft" },
   { directory: "content/sources", collection: "Source records", status: "research draft" },
   { directory: "inputs/agent-returns", collection: "External research returns", status: "unverified external return" },
-  { directory: "inputs/imported-research", collection: "Imported research archive", status: "unverified external return" },
+  {
+    directory: "inputs/imported-research",
+    collection: "Imported research archive",
+    status: "unverified external return",
+    include: (relativePath) => !relativePath.includes("/") || relativePath.startsWith(legacyPrototypeResearchPrefix),
+  },
   { directory: "inputs/chatgpt-health-topic-history", collection: "De-identified topic history", status: "unverified external return" },
   {
     directory: "docs",
