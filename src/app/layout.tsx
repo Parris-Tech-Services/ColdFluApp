@@ -4,8 +4,8 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: { default: "Cold & Flu Research Base", template: "%s · Cold & Flu Research Base" },
-  description: "An evidence-led research base for respiratory self-care. No medical modules are currently published.",
+  title: { default: "Health Reference", template: "%s · Health Reference" },
+  description: "An evidence-led Australian-first health research and learning reference. Reviewed medical content remains gated by source verification and human review.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -22,18 +22,18 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </a>
         <header className="site-header">
           <Link href="/" className="brand">
-            Cold & Flu Research Base
+            Health Reference
           </Link>
           <div className="site-header-actions">
             <nav aria-label="Primary">
-              <Link href="/">Public status</Link>
+              <Link href="/">Home</Link>
+              <Link href="/health-reference">Health Reference</Link>
+              <Link href="/health-reference/resources">Learn</Link>
+              <Link href="/health-reference/quizzes">Quizzes</Link>
               <Link href="/modules">Modules</Link>
               <Link href="/sources">Sources</Link>
               <Link href="/about/methodology">Methodology</Link>
-              <Link href="/about/policy">Policy</Link>
-              <Link href="/about/accessibility">Accessibility</Link>
               <Link href="/about/privacy">Privacy</Link>
-              <Link href="/about/transparency">Transparency</Link>
               <Link href="/about/corrections">Corrections</Link>
             </nav>
             <ThemeToggle />
@@ -43,7 +43,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           {children}
         </main>
         <footer>
-          <p>Research project only. Not a diagnosis or substitute for professional care.</p>
+          <p>Health research and learning reference. Not a diagnosis or substitute for professional care, emergency services, local clinical policy or accredited training.</p>
         </footer>
       </body>
     </html>
