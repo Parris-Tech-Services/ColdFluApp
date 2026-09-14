@@ -59,7 +59,7 @@ export default async function Home() {
         </section>
       ) : (
         <section className="notice">
-          <h2>Clinical-content publication is still gated</h2>
+          <h2>No medical modules are published</h2>
           <p>
             The broader roadmap, learning resources, research explorer and quizzes are visible now, but no medical module is labelled published until claim-level source verification and independent evidence, clinical and editorial review are complete.
           </p>
