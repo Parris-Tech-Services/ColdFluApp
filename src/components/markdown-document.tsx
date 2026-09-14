@@ -9,16 +9,38 @@ const docRoutes: Record<string, string> = {
   "REPO_HARDENING_TODO.md": "/health-reference/hardening",
 };
 
-function normaliseHref(href: string) {
-  if (docRoutes[href]) return docRoutes[href];
-  if (href.startsWith("./") && docRoutes[href.slice(2)]) return docRoutes[href.slice(2)];
+function researchHref(repoPath: string) {
+  return `/health-reference/research/view/${repoPath.split("/").map(encodeURIComponent).join("/")}`;
+}
+
+function resolveRelative(basePath: string, href: string) {
+  const stack = basePath.split("/").filter(Boolean);
+  for (const part of href.split("/")) {
+    if (!part || part === ".") continue;
+    if (part === "..") stack.pop();
+    else stack.push(part);
+  }
+  return stack.join("/");
+}
+
+function normaliseHref(href: string, basePath?: string) {
+  const [hrefWithoutHash, hash = ""] = href.split("#", 2);
+  const hashSuffix = hash ? `#${hash}` : "";
+
+  if (docRoutes[hrefWithoutHash]) return `${docRoutes[hrefWithoutHash]}${hashSuffix}`;
+  if (hrefWithoutHash.startsWith("./") && docRoutes[hrefWithoutHash.slice(2)]) return `${docRoutes[hrefWithoutHash.slice(2)]}${hashSuffix}`;
   if (/^https?:\/\//i.test(href)) return href;
   if (href.startsWith("/")) return href;
   if (href.startsWith("#")) return href;
-  return `https://github.com/joshualparris/ColdFluApp/blob/main/docs/${href}`;
+
+  const directRepoPath = /^(content|inputs|docs)\//.test(hrefWithoutHash) ? hrefWithoutHash : null;
+  const resolved = directRepoPath ?? resolveRelative(basePath ?? "docs", hrefWithoutHash);
+  if (/^(content|inputs|docs)\//.test(resolved)) return `${researchHref(resolved)}${hashSuffix}`;
+
+  return `https://github.com/joshualparris/ColdFluApp/blob/main/${resolved}${hashSuffix}`;
 }
 
-function inline(text: string, keyPrefix: string): ReactNode[] {
+function inline(text: string, keyPrefix: string, basePath?: string): ReactNode[] {
   const nodes: ReactNode[] = [];
   const token = /(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*|`[^`]+`|<https?:\/\/[^>]+>)/g;
   let last = 0;
@@ -32,7 +54,7 @@ function inline(text: string, keyPrefix: string): ReactNode[] {
 
     const linkMatch = /^\[([^\]]+)\]\(([^)]+)\)$/.exec(value);
     if (linkMatch) {
-      const href = normaliseHref(linkMatch[2]);
+      const href = normaliseHref(linkMatch[2], basePath);
       if (/^https?:\/\//i.test(href)) {
         nodes.push(<a key={key} href={href} target="_blank" rel="noreferrer">{linkMatch[1]}</a>);
       } else {
@@ -62,7 +84,7 @@ function cells(line: string) {
   return line.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map((cell) => cell.trim());
 }
 
-export function MarkdownDocument({ source }: { source: string }) {
+export function MarkdownDocument({ source, basePath }: { source: string; basePath?: string }) {
   const lines = source.replace(/\r\n/g, "\n").split("\n");
   const output: ReactNode[] = [];
   let i = 0;
@@ -92,7 +114,7 @@ export function MarkdownDocument({ source }: { source: string }) {
     const heading = /^(#{1,4})\s+(.+)$/.exec(line);
     if (heading) {
       const level = heading[1].length;
-      const content = inline(heading[2], `h-${key}`);
+      const content = inline(heading[2], `h-${key}`, basePath);
       if (level === 1) output.push(<h1 key={`h-${key++}`}>{content}</h1>);
       else if (level === 2) output.push(<h2 key={`h-${key++}`}>{content}</h2>);
       else if (level === 3) output.push(<h3 key={`h-${key++}`}>{content}</h3>);
@@ -113,7 +135,7 @@ export function MarkdownDocument({ source }: { source: string }) {
         quote.push(lines[i].trim().replace(/^>\s?/, ""));
         i += 1;
       }
-      output.push(<blockquote key={`q-${key++}`}>{quote.map((item, qIndex) => <p key={qIndex}>{inline(item, `q-${key}-${qIndex}`)}</p>)}</blockquote>);
+      output.push(<blockquote key={`q-${key++}`}>{quote.map((item, qIndex) => <p key={qIndex}>{inline(item, `q-${key}-${qIndex}`, basePath)}</p>)}</blockquote>);
       continue;
     }
 
@@ -128,8 +150,8 @@ export function MarkdownDocument({ source }: { source: string }) {
       output.push(
         <div className="table-scroll" key={`table-${key++}`}>
           <table>
-            <thead><tr>{header.map((cell, c) => <th key={c}>{inline(cell, `th-${key}-${c}`)}</th>)}</tr></thead>
-            <tbody>{rows.map((row, r) => <tr key={r}>{row.map((cell, c) => <td key={c}>{inline(cell, `td-${key}-${r}-${c}`)}</td>)}</tr>)}</tbody>
+            <thead><tr>{header.map((cell, c) => <th key={c}>{inline(cell, `th-${key}-${c}`, basePath)}</th>)}</tr></thead>
+            <tbody>{rows.map((row, r) => <tr key={r}>{row.map((cell, c) => <td key={c}>{inline(cell, `td-${key}-${r}-${c}`, basePath)}</td>)}</tr>)}</tbody>
           </table>
         </div>,
       );
@@ -146,7 +168,7 @@ export function MarkdownDocument({ source }: { source: string }) {
         <ul key={`ul-${key++}`}>
           {items.map((item, itemIndex) => {
             const task = /^\[( |x|X)\]\s+(.+)$/.exec(item);
-            return <li key={itemIndex}>{task ? <><span aria-hidden="true">{task[1].trim() ? "☑" : "☐"} </span>{inline(task[2], `li-${key}-${itemIndex}`)}</> : inline(item, `li-${key}-${itemIndex}`)}</li>;
+            return <li key={itemIndex}>{task ? <><span aria-hidden="true">{task[1].trim() ? "☑" : "☐"} </span>{inline(task[2], `li-${key}-${itemIndex}`, basePath)}</> : inline(item, `li-${key}-${itemIndex}`, basePath)}</li>;
           })}
         </ul>,
       );
@@ -159,7 +181,7 @@ export function MarkdownDocument({ source }: { source: string }) {
         items.push(lines[i].trim().replace(/^\d+\.\s+/, ""));
         i += 1;
       }
-      output.push(<ol key={`ol-${key++}`}>{items.map((item, itemIndex) => <li key={itemIndex}>{inline(item, `oli-${key}-${itemIndex}`)}</li>)}</ol>);
+      output.push(<ol key={`ol-${key++}`}>{items.map((item, itemIndex) => <li key={itemIndex}>{inline(item, `oli-${key}-${itemIndex}`, basePath)}</li>)}</ol>);
       continue;
     }
 
@@ -190,7 +212,7 @@ export function MarkdownDocument({ source }: { source: string }) {
       paragraph.push(lines[i].trim());
       i += 1;
     }
-    output.push(<p key={`p-${key++}`}>{inline(paragraph.join(" "), `p-${key}`)}</p>);
+    output.push(<p key={`p-${key++}`}>{inline(paragraph.join(" "), `p-${key}`, basePath)}</p>);
   }
 
   return <article className="markdown-doc">{output}</article>;
