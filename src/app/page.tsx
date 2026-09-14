@@ -69,7 +69,7 @@ export default async function Home() {
       <section className="card" style={{ marginTop: "1.5rem" }}>
         <h2>Evidence and policy</h2>
         <p>
-          <Link href="/health-reference/research">Research Explorer</Link> · <Link href="/modules">Modules</Link> · <Link href="/sources">Sources</Link> · <Link href="/about/methodology">Methodology</Link> · <Link href="/about/accessibility">Accessibility</Link> · <Link href="/about/privacy">Privacy</Link> · <Link href="/about/transparency">Transparency</Link> · <Link href="/about/corrections">Corrections</Link>
+          <Link href="/health-reference/research">Research Explorer</Link> · <Link href="/modules">Modules</Link> · <Link href="/sources">Sources</Link> · <Link href="/about/methodology">How evidence is reviewed</Link> · <Link href="/about/accessibility">Accessibility</Link> · <Link href="/about/privacy">Privacy</Link> · <Link href="/about/transparency">Transparency</Link> · <Link href="/about/corrections">Corrections</Link>
         </p>
       </section>
     </>
