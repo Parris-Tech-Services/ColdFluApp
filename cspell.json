@@ -5,14 +5,16 @@
   "files": ["AGENTS.md", "README.md", "TODO.md", "docs/**/*.md", "scripts/**/*.mjs", "src/**/*.{ts,tsx}"],
   "ignorePaths": ["inputs/**", "archive/**", ".next/**", "node_modules/**", "public/**", "content/research/**", "content/modules/**", "content/sources/**"],
   "words": [
-    "ambroxol", "Anneliese", "artefact", "artefacts", "benzydamine", "bronchiolitis", "cardiopulmonary", "Chaaban", "clinicalguide",
-    "Cochrane", "coldflu", "Crossmark", "Crossref", "Cureus", "DCBA", "decongestant", "decongestants", "efetch", "Embase", "epistemonikos",
-    "esearch", "esummary", "flurbiprofen", "frontmatter", "Glasziou", "Goodfellow", "healthdirect", "immunocompromise", "immunocompromised",
-    "inspectable", "Jaccard", "jurisdictional", "kidsinfo", "lede", "lozenge", "lozenges", "MEDLINE", "mepolizumab", "metacresol", "Mohamad",
-    "mojibake", "nasogastric", "NCBI", "Neti", "NHMRC", "noindex", "nofollow", "noarchive", "NSAID", "paracetamol", "paediatric",
-    "paediatrics", "pharyngitis", "playwright", "PMCID", "polypharmacy", "PostCSS", "preidentified", "pregnancybirthbaby", "pseudoephedrine",
-    "PubMed", "RACP", "renderable", "retmax", "retmode", "retraction", "retractions", "rhinosinusitis", "rhinorrhoea", "sitemap", "snowball",
-    "Spinks", "supabase", "triage", "TypeScript", "unpassed", "unpublish", "unpublishing", "unstarted", "overstrong", "Vercel", "WCAG",
-    "Weckmann", "workbench", "workstreams"
+    "ambroxol", "Anneliese", "antiplatelets", "ANZCOR", "APNA", "artefact", "artefacts", "benzydamine", "bronchiolitis", "bronchoconstriction",
+    "cardiometabolic", "cardiopulmonary", "Chaaban", "clinicalguide", "Cochrane", "coldflu", "COMISA", "CPAP", "Crossmark", "Crossref", "Cureus",
+    "DCBA", "decongestant", "decongestants", "DRSABCD", "efetch", "Embase", "epistemonikos", "esearch", "esummary", "exertional", "factsheet",
+    "factsheets", "Fitbit", "flurbiprofen", "frontmatter", "gastro", "Glasziou", "Goodfellow", "GORD", "healthdirect", "Healthtalk", "Holter",
+    "immunocompromise", "immunocompromised", "inspectable", "Jaccard", "jurisdictional", "kidsinfo", "lede", "lozenge", "lozenges", "MEDLINE",
+    "mepolizumab", "metacresol", "Mohamad", "mojibake", "nasogastric", "NCBI", "NDIS", "Neti", "neurodivergence", "NHMRC", "noarchive",
+    "nofollow", "noindex", "NSAID", "paracetamol", "paediatric", "paediatrics", "PCOS", "PESE", "pharyngitis", "playwright", "PMCID", "polypharmacy",
+    "PostCSS", "preidentified", "pregnancybirthbaby", "presyncope", "pseudoephedrine", "PTSD", "PubMed", "RACP", "Raeessi", "renderable", "retmax",
+    "retmode", "retraction", "retractions", "rhinosinusitis", "rhinorrhoea", "RMSSD", "sitemap", "snowball", "Spinks", "Strava", "supabase", "triage",
+    "TypeScript", "unpassed", "unpublish", "unpublishing", "unstarted", "URTI", "overstrong", "Vercel", "Vertigan", "Wahls", "WCAG", "Weckmann",
+    "Withings", "workbench", "workstreams"
   ]
 }
