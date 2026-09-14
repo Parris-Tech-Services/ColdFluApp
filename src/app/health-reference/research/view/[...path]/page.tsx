@@ -22,6 +22,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${item.title} · Research Explorer`,
     description: `View ${item.title} from the ${item.collection} research backend.`,
+    robots: { index: false, follow: false },
   };
 }
 
@@ -30,10 +31,13 @@ export default async function ResearchFilePage({ params }: PageProps) {
   const item = await getPublicResearchItem(path);
   if (!item) notFound();
   const source = await readPublicResearchItem(item);
+  const allItems = await getPublicResearchItems();
+  const related = allItems.filter((candidate) => candidate.topic === item.topic && candidate.id !== item.id);
+  const basePath = item.path.split("/").slice(0, -1).join("/");
 
   let content;
   if (item.format === "markdown") {
-    content = <MarkdownDocument source={source} />;
+    content = <MarkdownDocument source={source} basePath={basePath} />;
   } else if (item.format === "json") {
     try {
       content = <ResearchJsonDocument value={JSON.parse(source) as unknown} />;
@@ -76,6 +80,18 @@ export default async function ResearchFilePage({ params }: PageProps) {
           <a className="button button-secondary" href={githubUrl} target="_blank" rel="noreferrer">View original on GitHub</a>
         </div>
       </section>
+
+      {related.length > 0 ? (
+        <section className="card" style={{ marginBottom: "1.5rem" }}>
+          <h2>Continue this topic</h2>
+          <p>Open another artefact from <strong>{item.topic}</strong>:</p>
+          <ul>
+            {related.slice(0, 20).map((candidate) => (
+              <li key={candidate.id}><Link href={candidate.href}>{candidate.title}</Link> <small>· {candidate.collection} · {candidate.status}</small></li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       {content}
     </>
