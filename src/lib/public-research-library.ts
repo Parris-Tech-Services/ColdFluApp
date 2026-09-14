@@ -20,13 +20,22 @@ type RootDefinition = {
 };
 
 const programmeDocs = new Set([
+  "AGENT_RESEARCH_HANDOFF.md",
   "ASSIGNMENTS.md",
+  "CHATGPT_IMPORT_AUDIT.md",
+  "CONTENT_SCHEMA.md",
+  "CONTENT_STYLE_GUIDE.md",
+  "CONTROLLED_VOCABULARIES.md",
+  "DECISIONS.md",
   "EVIDENCE_GAP_REGISTER.md",
+  "EXTERNAL_RESEARCH_RUNBOOK.md",
+  "GOVERNANCE_AND_ACCOUNTABILITY.md",
   "HEALTH_APP_ECOSYSTEM.md",
   "HEALTH_LEARNING_QUIZZES.md",
   "HEALTH_RESOURCE_LIBRARY.md",
   "HEALTH_TOPIC_MASTER_ROADMAP.md",
   "REPO_HARDENING_TODO.md",
+  "RESEARCH_METHOD.md",
   "SOURCE_REGISTER.md",
   "SOURCE_REGISTER_DRAFT.md",
 ]);
@@ -36,6 +45,8 @@ const roots: RootDefinition[] = [
   { directory: "content/research", collection: "Research packages", status: "research draft" },
   { directory: "content/sources", collection: "Source records", status: "research draft" },
   { directory: "inputs/agent-returns", collection: "External research returns", status: "unverified external return" },
+  { directory: "inputs/imported-research", collection: "Imported research archive", status: "unverified external return" },
+  { directory: "inputs/chatgpt-health-topic-history", collection: "De-identified topic history", status: "unverified external return" },
   {
     directory: "docs",
     collection: "Programme documents",
@@ -50,7 +61,7 @@ const extensionToFormat = new Map<string, PublicResearchItem["format"]>([
   [".txt", "text"],
 ]);
 
-const blockedSegments = new Set(["DO-NOT-COMMIT", "personal", "private", "secrets"]);
+const blockedSegments = new Set(["do-not-commit", "personal", "private", "secrets"]);
 
 function humanise(value: string) {
   return value
@@ -63,6 +74,8 @@ function topicFor(filePath: string, root: RootDefinition) {
   const relative = path.posix.relative(root.directory, filePath);
   const parts = relative.split("/");
   if (root.directory === "docs") return "Programme";
+  if (root.directory === "inputs/chatgpt-health-topic-history") return "Health topic history";
+  if (root.directory === "inputs/imported-research") return "Legacy cold and flu research";
   if (parts.length > 1) return humanise(parts[0]);
   return humanise(path.posix.basename(filePath, path.posix.extname(filePath)));
 }
@@ -72,7 +85,10 @@ function toHref(filePath: string) {
 }
 
 function isBlocked(filePath: string) {
-  return filePath.split("/").some((segment) => blockedSegments.has(segment));
+  return filePath.split("/").some((segment) => {
+    const normalised = segment.toLowerCase();
+    return blockedSegments.has(normalised) || normalised.startsWith(".env");
+  });
 }
 
 async function walk(directory: string): Promise<string[]> {
