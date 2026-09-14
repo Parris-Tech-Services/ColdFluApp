@@ -28,6 +28,10 @@ export default async function Home() {
           <p>Open curated podcasts, videos, Australian guidelines, trusted references and deeper research.</p>
         </article>
         <article className="card">
+          <h2><Link href="/health-reference/research">Explore the research backend</Link></h2>
+          <p>Search research packages, source maps, evidence gaps, structured data and external research returns, then mark material as studied.</p>
+        </article>
+        <article className="card">
           <h2><Link href="/health-reference/quizzes">Health learning quizzes</Link></h2>
           <p>Test what you know across first aid, medicines, kids, sleep, heart health, nutrition, nursing and other topics.</p>
         </article>
@@ -55,9 +59,9 @@ export default async function Home() {
         </section>
       ) : (
         <section className="notice">
-          <h2>Clinical-content publication is still gated</h2>
+          <h2>No medical modules are published</h2>
           <p>
-            The broader roadmap, learning resources and quizzes are visible now, but no medical module is labelled published until claim-level source verification and independent evidence, clinical and editorial review are complete.
+            The broader roadmap, learning resources, research explorer and quizzes are visible now, but no medical module is labelled published until claim-level source verification and independent evidence, clinical and editorial review are complete.
           </p>
         </section>
       )}
@@ -65,7 +69,7 @@ export default async function Home() {
       <section className="card" style={{ marginTop: "1.5rem" }}>
         <h2>Evidence and policy</h2>
         <p>
-          <Link href="/modules">Modules</Link> · <Link href="/sources">Sources</Link> · <Link href="/about/methodology">Methodology</Link> · <Link href="/about/accessibility">Accessibility</Link> · <Link href="/about/privacy">Privacy</Link> · <Link href="/about/transparency">Transparency</Link> · <Link href="/about/corrections">Corrections</Link>
+          <Link href="/health-reference/research">Research Explorer</Link> · <Link href="/modules">Modules</Link> · <Link href="/sources">Sources</Link> · <Link href="/about/methodology">How evidence is reviewed</Link> · <Link href="/about/accessibility">Accessibility</Link> · <Link href="/about/privacy">Privacy</Link> · <Link href="/about/transparency">Transparency</Link> · <Link href="/about/corrections">Corrections</Link>
         </p>
       </section>
     </>

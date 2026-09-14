@@ -1,2 +1,11 @@
 import type { MetadataRoute } from "next";
-export default function robots(): MetadataRoute.Robots { return { rules: { userAgent: "*", allow: "/", disallow: "/research-preview/" } }; }
+
+export default function robots(): MetadataRoute.Robots {
+  return {
+    rules: {
+      userAgent: "*",
+      allow: "/",
+      disallow: ["/research-preview/", "/health-reference/research/view/"],
+    },
+  };
+}

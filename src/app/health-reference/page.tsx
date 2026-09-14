@@ -45,6 +45,10 @@ export default function HealthReferenceHub() {
           <p>Open curated Australian-first podcasts, videos, clinical guidelines, research papers and trusted reference sites.</p>
         </article>
         <article className="card">
+          <h2><Link href="/health-reference/research">Research Explorer</Link></h2>
+          <p>Search the public backend, open research packages and source maps, inspect JSON and Markdown, follow links and track what you have studied.</p>
+        </article>
+        <article className="card">
           <h2><Link href="/health-reference/quizzes">Health quizzes</Link></h2>
           <p>Use source-linked knowledge checks across first aid, child health, medicines, heart, sleep, nutrition and more.</p>
         </article>
