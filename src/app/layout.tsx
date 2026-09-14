@@ -29,6 +29,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <Link href="/">Home</Link>
               <Link href="/health-reference">Health Reference</Link>
               <Link href="/health-reference/resources">Learn</Link>
+              <Link href="/health-reference/research">Research Explorer</Link>
               <Link href="/health-reference/quizzes">Quizzes</Link>
               <Link href="/modules">Modules</Link>
               <Link href="/sources">Sources</Link>
