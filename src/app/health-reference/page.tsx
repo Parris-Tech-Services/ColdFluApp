@@ -37,6 +37,10 @@ export default function HealthReferenceHub() {
 
       <section className="card-grid">
         <article className="card">
+          <h2><Link href="/health-reference/cough">Persistent cough guide</Link></h2>
+          <p>See the current research summary for a dry cough lingering after a respiratory infection, including the typical 3–8 week window, morning/night triggers, practical cough-control techniques and when to get checked.</p>
+        </article>
+        <article className="card">
           <h2><Link href="/health-reference/roadmap">Master health roadmap</Link></h2>
           <p>See what the repo covers now, what is missing, and the P0/P1/P2 research priority for each health domain.</p>
         </article>
