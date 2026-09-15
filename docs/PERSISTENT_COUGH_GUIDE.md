@@ -130,4 +130,4 @@ Key sources:
 - [Cochrane — saline irrigation for allergic rhinitis](https://www.cochrane.org/CD012597/ENT_saline-irrigation-allergic-rhinitis)
 - [NICE — acute cough: antimicrobial prescribing](https://www.nice.org.uk/guidance/ng120)
 
-For the underlying claim mapping, limitations and full source register, open the [postinfectious cough research package](content/research/postinfectious-dry-cough/synthesis.md).
+For the underlying claim mapping, limitations and full source register, open the [postinfectious cough research package](../content/research/postinfectious-dry-cough/synthesis.md).
