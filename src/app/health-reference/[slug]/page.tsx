@@ -11,6 +11,11 @@ const docs = {
     title: "Health topic master roadmap",
     description: "Every current and planned health topic, with priority and coverage status.",
   },
+  cough: {
+    file: "PERSISTENT_COUGH_GUIDE.md",
+    title: "Persistent cough after a respiratory infection",
+    description: "Reader-friendly research summary covering duration, morning/night triggers, self-care, cough-control techniques and escalation.",
+  },
   resources: {
     file: "HEALTH_RESOURCE_LIBRARY.md",
     title: "Health learning resource library",
