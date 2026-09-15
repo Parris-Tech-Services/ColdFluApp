@@ -16,7 +16,7 @@ const collections = [
   ["Mental Health & Neurodivergence", "Anxiety, depression, stress, ADHD, autism/AuDHD, burnout, regulation, sleep and support pathways."],
   ["Pregnancy, Breastfeeding & Women’s Health", "Medicines, vaccination, nutrition, postpartum health, breastfeeding, periods, menopause and screening."],
   ["Older People, Aged Care & Nursing", "Deterioration, delirium, falls, infection control, medicines, wounds, dementia, hydration, palliative care and governance."],
-  ["Workplace & Environmental Health", "First-aid systems, WHS, mould, air quality, heat, noise, ergonomics, biological hazards, PPE and chemical exposure."],
+  ["Workplace & Environmental Health", "First-aid systems, WHS, mould, air quality, heat, noise, ergonomics, biological hazards, PPE and chemical exposure. Includes the live Avance NSW WHS implementation reference."],
   ["Prevention & Healthy Ageing", "Vaccination, cardiovascular and metabolic prevention, cancer screening, smoking/alcohol, sun, oral health and healthy ageing."],
   ["Digital Health & Evidence Literacy", "Wearables, HRV, sleep metrics, Health Connect, pathology data, privacy, AI-health literacy and reading research."],
 ] as const;
@@ -39,6 +39,10 @@ export default function HealthReferenceHub() {
         <article className="card">
           <h2><Link href="/health-reference/cough">Persistent cough guide</Link></h2>
           <p>See the current research summary for a dry cough lingering after a respiratory infection, including the typical 3–8 week window, morning/night triggers, practical cough-control techniques and when to get checked.</p>
+        </article>
+        <article className="card">
+          <h2><Link href="/health-reference/workplace-whs">Avance NSW WHS & first aid</Link></h2>
+          <p>Open the current Avance emergency, first-aid, workers-compensation, Category 2, recovery-at-work and implementation reference, including the September 2026 first-aid qualification dates.</p>
         </article>
         <article className="card">
           <h2><Link href="/health-reference/roadmap">Master health roadmap</Link></h2>
