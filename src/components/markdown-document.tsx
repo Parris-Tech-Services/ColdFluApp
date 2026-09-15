@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 
 const docRoutes: Record<string, string> = {
   "HEALTH_TOPIC_MASTER_ROADMAP.md": "/health-reference/roadmap",
+  "PERSISTENT_COUGH_GUIDE.md": "/health-reference/cough",
   "HEALTH_RESOURCE_LIBRARY.md": "/health-reference/resources",
   "HEALTH_LEARNING_QUIZZES.md": "/health-reference/quizzes",
   "HEALTH_APP_ECOSYSTEM.md": "/health-reference/apps",
