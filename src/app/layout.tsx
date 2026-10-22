@@ -53,6 +53,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           data-website-id="__UMAMI_WEBSITE_ID__"
           data-do-not-track="true"
           data-performance="true"
+          data-exclude-hash="true"
           data-domains="cold-flu-app.vercel.app"
           data-tag="ColdFluApp"
         />
