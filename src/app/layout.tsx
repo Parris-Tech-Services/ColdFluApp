@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
 import "./globals.css";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: { default: "Health Reference", template: "%s · Health Reference" },
@@ -46,6 +47,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <footer>
           <p>Health research and learning reference. Not a diagnosis or substitute for professional care, emergency services, local clinical policy or accredited training.</p>
         </footer>
+        <Script
+          src="https://cloud.umami.is/script.js"
+          strategy="afterInteractive"
+          data-website-id="__UMAMI_WEBSITE_ID__"
+          data-do-not-track="true"
+          data-performance="true"
+          data-domains="cold-flu-app.vercel.app"
+          data-tag="ColdFluApp"
+        />
       </body>
     </html>
   );
