@@ -10,7 +10,7 @@ const streamOrigins = ["traffic.omny.fm", "traffic.omny.fm", "cdn.vivarep.com"];
 test("all three oral-health podcasts play on desktop and mobile browsers", async ({page}) => {
   test.setTimeout(95_000);
   await page.goto("/listen");
-  await expect(page.getByRole("heading", {name:/mouth ulcers/i}).first()).toBeVisible();
+  await expect(page.getByRole("heading", {name:/mouth ulcer podcasts/i}).first()).toBeVisible();
   const audio = page.locator("main audio");
   const iframes = page.locator("main iframe");
   await expect(audio).toHaveCount(3);
