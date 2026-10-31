@@ -12,3 +12,13 @@ test("mouth ulcer listening page has three distinct embedded publisher players",
   assert.match(source, /title=\{\x60Play/);
   assert.match(source, /Educational media, not individual medical advice/);
 });
+
+test("all three mouth-ulcer episodes have in-page native audio sources alongside publisher embeds", async () => {
+  const source = await readFile("src/app/listen/page.tsx", "utf8");
+  assert.equal((source.match(/audio: "https:\/\//g) ?? []).length, 3);
+  assert.match(source, /<audio controls preload="none"/);
+  assert.match(source, /<source src=\{episode\.audio\} type="audio\/mpeg"/);
+  assert.match(source, /traffic\.omny\.fm\/d\/clips\//);
+  assert.match(source, /cdn\.vivarep\.com\/contrib\/va\/podcast\//);
+  assert.match(source, /<details/);
+});
