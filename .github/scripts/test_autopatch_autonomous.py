@@ -147,5 +147,73 @@ class PolicyTests(unittest.TestCase):
         self.assertFalse(any(x.startswith("pulls/16/merge") for x in calls))
 
 
+    def test_stale_pr_refreshes_only_with_sha_guard_and_explicit_readonly_qa(self):
+        pr = candidate()
+        fresh = {**pr,
+                 "head": {**pr["head"], "sha": "c" * 40},
+                 "base": {"ref": "main", "sha": "d" * 40}}
+        calls = []
+        def fake_api(repo, path, token, method="GET", body=None):
+            calls.append((path, method, body))
+            if path.endswith("update-branch"):
+                self.assertEqual(method, "PUT")
+                self.assertEqual(body, {"expected_head_sha": NEW})
+                return {"message": "Updating"}
+            if path == "pulls/16":
+                return fresh
+            if path == "git/ref/heads/main":
+                return {"object": {"sha": "d" * 40}}
+            if path.endswith("/dispatches"):
+                self.assertEqual(method, "POST")
+                self.assertEqual(body, {"ref": "dependabot/npm_and_yarn/postcss-8.5.19"})
+                return {}
+            raise AssertionError(path)
+        status = m.refresh_stale_pr(REPO, pr, "fake-token",
+                                    "quality-gates.yml", api_call=fake_api,
+                                    pause=lambda delay: self.fail("should not wait"))
+        self.assertEqual(status, "REBASED_CI_DISPATCHED")
+        self.assertEqual([c[0] for c in calls],
+                         ["pulls/16/update-branch", "pulls/16",
+                          "git/ref/heads/main",
+                          "actions/workflows/quality-gates.yml/dispatches"])
+        self.assertFalse(any("/merge" in c[0] for c in calls))
+
+    def test_stale_pr_with_dry_run_does_not_write_or_download_private_packages(self):
+        pr = candidate()
+        paths = []
+        def fake_api(repo, path, token, method="GET", body=None):
+            paths.append((path, method))
+            if path.startswith("pulls?"):
+                return [pr]
+            if path == "pulls/16":
+                return pr
+            if path == "pulls/16/files?per_page=100":
+                return [{"filename": "package-lock.json", "status": "modified"}]
+            if path == "git/ref/heads/main":
+                return {"object": {"sha": "d" * 40}}
+            raise AssertionError(path)
+        with patch.dict(os.environ, {"GITHUB_REPOSITORY": REPO}), \
+             patch.object(m, "api", side_effect=fake_api), \
+             patch.object(m, "public_db", side_effect=AssertionError("DB read blocked")), \
+             patch.object(m, "git_blob", side_effect=AssertionError("lockfile read blocked")):
+            out = m.process(REPO, "fake-token", "quality", dry_run=True,
+                            verification_workflow="quality-gates.yml")
+        self.assertEqual(out[0]["status"], "STALE_BRANCH_DRY_RUN")
+        self.assertFalse(any(method != "GET" for _, method in paths))
+
+    def test_refresh_rejects_unapproved_workflow_and_rebase_race(self):
+        pr = candidate()
+        with self.assertRaises(ValueError):
+            m.refresh_stale_pr(REPO, pr, "fake-token", "../not-allowed.yml",
+                                api_call=lambda *a, **kw: self.fail("unexpected network"))
+        def fake_api(repo, path, token, method="GET", body=None):
+            if path.endswith("update-branch"):
+                raise ValueError("SHA changed")
+            raise AssertionError(path)
+        with self.assertRaises(ValueError):
+            m.refresh_stale_pr(REPO, pr, "fake-token",
+                                "quality-gates.yml", api_call=fake_api)
+
+
 if __name__ == "__main__":
     unittest.main()
