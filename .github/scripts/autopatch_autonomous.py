@@ -286,6 +286,8 @@ def process(repo, token, required_check, dry_run=False, verification_workflow=No
                 result["status"] = "BLOCKED"
                 result["reason"] = ("pr_scope:" + result.pop("scope_reason")
                                     if stage == "pr_scope" and result.get("scope_reason")
+                                    else f"{stage}:HTTP_{exc.code}"
+                                    if isinstance(exc, urllib.error.HTTPError)
                                     else f"{stage}:{type(exc).__name__}")
             outcomes.append(result)
             if len(outcomes) >= 15:
