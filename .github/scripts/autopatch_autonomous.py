@@ -13,6 +13,7 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+import time
 import tempfile
 import urllib.error
 import urllib.request
@@ -180,7 +181,31 @@ def independently_verified(old, new, bump, db):
     return True, f"offline advisory check passed; resolved {len(old_ids)} known advisory ID(s)"
 
 
-def process(repo, token, required_check, dry_run=False):
+def refresh_stale_pr(repo, pr, token, workflow_file, *, api_call=api, pause=time.sleep):
+    """Refresh stale Dependabot patch as data, then run read-only QA against its new SHA.
+
+    GitHub's workflow token won't reliably trigger another workflow on a branch
+    update. Explicit workflow_dispatch is an exception to that restriction.
+    Neither an update nor a dispatch is a merge. No PR code runs in this worker.
+    """
+    if not re.fullmatch(r"[A-Za-z0-9_.-]+\.yml", workflow_file or ""):
+        raise ValueError("a known, scoped read-only QA workflow is required")
+    number, old_sha = pr["number"], pr["head"]["sha"]
+    api_call(repo, f"pulls/{number}/update-branch", token, "PUT",
+             {"expected_head_sha": old_sha})
+    for _ in range(10):
+        updated = api_call(repo, f"pulls/{number}", token)
+        if updated["head"]["sha"] != old_sha:
+            if updated["base"]["sha"] != api_call(repo, "git/ref/heads/main", token)["object"]["sha"]:
+                raise ValueError("updated PR branch base still stale")
+            api_call(repo, f"actions/workflows/{workflow_file}/dispatches", token,
+                     "POST", {"ref": updated["head"]["ref"]})
+            return "REBASED_CI_DISPATCHED"
+        pause(2)
+    return "REBASE_PENDING_NEXT_RUN"
+
+
+def process(repo, token, required_check, dry_run=False, verification_workflow=None):
     assert repo == os.environ.get("GITHUB_REPOSITORY"), "repository identity mismatch"
     prs = api(repo, "pulls?state=open&per_page=100", token)
     outcomes = []
@@ -205,6 +230,21 @@ def process(repo, token, required_check, dry_run=False):
                     result["scope_reason"] = str(info)
                     raise ValueError("rejected scope")
                 sha = pr["head"]["sha"]
+                stage = "base_head"
+                main_head = api(repo, "git/ref/heads/main", token)["object"]["sha"]
+                if pr["base"]["sha"] != main_head:
+                    if dry_run:
+                        result["status"] = "STALE_BRANCH_DRY_RUN"
+                        result["reason"] = "rebase and independent CI required"
+                    else:
+                        stage = "refresh_stale_branch"
+                        result["status"] = refresh_stale_pr(
+                            repo, pr, token, verification_workflow)
+                        result["reason"] = "fresh CI required; no merge attempted"
+                    outcomes.append(result)
+                    if len(outcomes) >= 15:
+                        break
+                    continue
                 stage = "read_checks"
                 checks = api(repo, f"commits/{sha}/check-runs?per_page=100", token)
                 stage = "read_statuses"
@@ -212,9 +252,6 @@ def process(repo, token, required_check, dry_run=False):
                 stage = "ci_green"
                 if not ci_green(checks, statuses, required_check):
                     raise ValueError("required CI missing, incomplete or failing")
-                stage = "base_head"
-                if pr["base"]["sha"] != api(repo, "git/ref/heads/main", token)["object"]["sha"]:
-                    raise ValueError("default branch moved; refresh PR")
                 if not prepared:
                     stage = "public_advisory_download"
                     public_db(db)  # BEFORE private repo lockfiles are opened
@@ -260,11 +297,14 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--required-check", required=True)
     p.add_argument("--dry-run", action="store_true")
+    p.add_argument("--verification-workflow", default=None,
+                   help="existing safe CI workflow for stale-branch retesting")
     args = p.parse_args()
     repo, token = os.environ.get("GITHUB_REPOSITORY", ""), os.environ.get("GH_TOKEN", "")
     if not repo or not token:
         raise SystemExit("BLOCKED: repository identity or automation token missing")
-    rows = process(repo, token, args.required_check, args.dry_run)
+    rows = process(repo, token, args.required_check, args.dry_run,
+                   verification_workflow=args.verification_workflow)
     for row in rows:
         print(f"PR #{row['pr']}: {row['status']}: {row.get('reason','')}")
     print(f"AutoPatch self-running gate: {len(rows)} Dependabot PRs assessed; "
