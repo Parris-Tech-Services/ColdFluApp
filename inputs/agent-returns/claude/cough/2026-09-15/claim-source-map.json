@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "cough",
+  "returnDate": "2026-09-15",
+  "agent": "claude",
+  "note": "Every mapping below is UNVERIFIED. Source verificationStatus values in source-records/ state exactly how far each source was checked. Only king-2022-ajgp-viral-persistent-cough was read in full.",
+  "mappings": [
+    {
+      "claimId": "cough-postinfectious-self-limiting",
+      "sourceIds": [
+        "accp-2006-postinfectious-cough-guideline",
+        "king-2022-ajgp-viral-persistent-cough",
+        "jones-2002-afp-duration-of-cough"
+      ],
+      "supportAssessed": false,
+      "verificationStatus": "not-verified-against-exact-record"
+    },
+    {
+      "claimId": "cough-otc-mixtures-no-clear-benefit",
+      "sourceIds": [
+        "cochrane-2014-otc-cough-cd001831",
+        "king-2022-ajgp-viral-persistent-cough"
+      ],
+      "supportAssessed": false,
+      "verificationStatus": "not-verified-against-exact-record"
+    },
+    {
+      "claimId": "cough-dextromethorphan-uncertain",
+      "sourceIds": [
+        "cochrane-2014-otc-cough-cd001831",
+        "nice-ng120-acute-cough-evidence"
+      ],
+      "supportAssessed": false,
+      "verificationStatus": "not-verified-against-exact-record"
+    },
+    {
+      "claimId": "cough-codeine-no-benefit",
+      "sourceIds": [
+        "cochrane-2014-otc-cough-cd001831",
+        "nice-ng120-acute-cough-evidence"
+      ],
+      "supportAssessed": false,
+      "verificationStatus": "not-verified-against-exact-record"
+    },
+    {
+      "claimId": "cough-honey-children-acute",
+      "sourceIds": [
+        "cochrane-2018-honey-children-cd007094"
+      ],
+      "supportAssessed": false,
+      "verificationStatus": "not-verified-against-exact-record"
+    },
+    {
+      "claimId": "cough-honey-coffee-adults-postinfectious",
+      "sourceIds": [
+        "raeessi-2013-honey-coffee-ppc-rct"
+      ],
+      "supportAssessed": false,
+      "verificationStatus": "not-verified-against-exact-record"
+    },
+    {
+      "claimId": "cough-behavioural-therapy-chronic",
+      "sourceIds": [
+        "vertigan-2006-thorax-speech-pathology-rct",
+        "chamberlain-mitchell-2017-thorax-slt-rct",
+        "slinger-2019-cochrane-slt-cough-cd013067"
+      ],
+      "supportAssessed": false,
+      "verificationStatus": "not-verified-against-exact-record"
+    },
+    {
+      "claimId": "cough-inhaled-corticosteroid-postinfectious",
+      "sourceIds": [
+        "cfp-2023-bronchodilators-ics-postinfectious-cough",
+        "speich-2020-ospic-protocol-with-review"
+      ],
+      "supportAssessed": false,
+      "verificationStatus": "not-verified-against-exact-record"
+    },
+    {
+      "claimId": "cough-ppi-without-reflux-symptoms",
+      "sourceIds": [
+        "accp-reflux-cough-guideline-afp-summary",
+        "lfa-2025-chronic-cough-adults-algorithm"
+      ],
+      "supportAssessed": false,
+      "verificationStatus": "not-verified-against-exact-record"
+    },
+    {
+      "claimId": "cough-saline-nasal-irrigation",
+      "sourceIds": [
+        "king-2022-ajgp-viral-persistent-cough"
+      ],
+      "supportAssessed": false,
+      "verificationStatus": "not-verified-against-exact-record"
+    },
+    {
+      "claimId": "cough-steam-no-duration-benefit",
+      "sourceIds": [
+        "king-2022-ajgp-viral-persistent-cough"
+      ],
+      "supportAssessed": false,
+      "verificationStatus": "not-verified-against-exact-record"
+    },
+    {
+      "claimId": "cough-extra-fluids-no-evidence",
+      "sourceIds": [
+        "king-2022-ajgp-viral-persistent-cough"
+      ],
+      "supportAssessed": false,
+      "verificationStatus": "not-verified-against-exact-record"
+    }
+  ]
+}

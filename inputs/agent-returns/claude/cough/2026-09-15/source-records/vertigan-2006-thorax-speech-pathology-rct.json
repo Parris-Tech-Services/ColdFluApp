@@ -1,0 +1,23 @@
+{
+  "id": "vertigan-2006-thorax-speech-pathology-rct",
+  "type": "rct",
+  "title": "Efficacy of speech pathology management for chronic cough: a randomised placebo controlled trial of treatment efficacy",
+  "authorsOrOrganisation": [
+    "Vertigan AE",
+    "Theodoros DG",
+    "Gibson PG",
+    "Winkworth AL"
+  ],
+  "publication": "Thorax",
+  "publishedAt": "2006-12-01",
+  "updatedAt": null,
+  "doi": "10.1136/thx.2006.064337",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/16844725/",
+  "accessedAt": "2026-09-15",
+  "jurisdiction": "AU",
+  "language": "en",
+  "peerReviewed": true,
+  "retractedOrCorrected": false,
+  "verificationStatus": "unverified-lead-snippet-only",
+  "notes": "Australian (John Hunter Hospital, Newcastle), n=87, single-blind placebo-controlled. Population is CHRONIC refractory cough, not subacute post-infectious cough - indirect."
+}

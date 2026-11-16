@@ -80,3 +80,24 @@ This lightweight log records decisions that constrain future work. Add dated ent
 
 **Decision:** Provider-specific ChatGPT or Claude sessions are optional discovery inputs, not required research gates. When no external session or unchanged return is available, Codex may research the assigned module directly from exact primary and authoritative sources using the same intake, provenance and review controls. No assignment may be marked returned merely because a prompt exists.
 **Reason:** The repository cannot launch or stall based on access to a named model provider. Evidence quality depends on verified sources, reproducible methods and accountable review rather than which drafting model produced an initial package.
+
+## D-014 — Broaden the programme from respiratory-only to a general health reference
+
+**Status:** accepted  
+**Date:** 2026-09-15  
+**Decision:** Preserve the original 28-module cold/flu/respiratory programme as the first controlled collection, while expanding the planning roadmap to cover first aid, family health, medicines, cardiovascular health, sleep/recovery, exercise, nutrition, mental health and neurodivergence, pregnancy/breastfeeding, neurological and chronic illness, skin/wounds, aged care/nursing, workplace/environmental health, prevention and digital-health literacy. New domains inherit the existing evidence, jurisdiction, human-review and publication-gate principles rather than being treated as automatically publishable because they appear on a roadmap.  
+**Reason:** Real-world household, first-aid, carer and health-worker use spans many health domains. A modular evidence model can support broader usefulness, but only if scope expansion does not weaken safety or review discipline.
+
+## D-015 — Separate public evidence from personal health history and companion-app data
+
+**Status:** accepted  
+**Date:** 2026-09-15  
+**Decision:** Historical conversations, uploaded personal reports and companion-app data may be used to identify de-identified topic gaps, but identifiable personal or family medical history must not be copied into this public repository. ColdFluApp/Health Reference may link to HealthLens and HeartCalm, but personal health data must not transfer between projects automatically. Any future interoperability requires a separate privacy/security decision and explicit consent design.  
+**Reason:** The repository is public and intended to become a reusable health reference. Personal health records, symptom histories and measurements carry a fundamentally different privacy and governance risk and belong in purpose-built private tools.
+
+## D-016 — Educational media and quizzes are supplementary, not clinical authority
+
+**Status:** accepted  
+**Date:** 2026-09-15  
+**Decision:** Podcasts, videos, lived-experience material and quizzes may be curated as a learning layer, with source ownership, jurisdiction and freshness recorded where practical. They must not be presented as substitutes for reviewed clinical guidance, accredited competency, employer policy or urgent action. Learning media must never delay emergency instructions.  
+**Reason:** Multiple formats improve accessibility and learning, but media popularity or engagement is not evidence of clinical validity and safety-critical flows must remain direct.

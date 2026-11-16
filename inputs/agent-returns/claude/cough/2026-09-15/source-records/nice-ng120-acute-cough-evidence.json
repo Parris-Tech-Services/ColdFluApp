@@ -1,0 +1,20 @@
+{
+  "id": "nice-ng120-acute-cough-evidence",
+  "type": "guideline",
+  "title": "Cough (acute): antimicrobial prescribing - summary of the evidence",
+  "authorsOrOrganisation": [
+    "National Institute for Health and Care Excellence"
+  ],
+  "publication": "NICE guideline NG120",
+  "publishedAt": null,
+  "updatedAt": null,
+  "doi": null,
+  "url": "https://www.nice.org.uk/guidance/ng120/chapter/summary-of-the-evidence",
+  "accessedAt": "2026-09-15",
+  "jurisdiction": "GB",
+  "language": "en",
+  "peerReviewed": false,
+  "retractedOrCorrected": false,
+  "verificationStatus": "unverified-lead-snippet-only",
+  "notes": "UK jurisdiction. Scope is ACUTE cough and antimicrobial prescribing; the dextromethorphan and codeine evidence statements are usable as global evidence but the prescribing context is not AU."
+}
