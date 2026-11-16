@@ -1,0 +1,318 @@
+#!/usr/bin/env python3
+"""Unattended, fail-closed Dependabot PATCH repairs on this one authorised repo.
+
+The GitHub-hosted schedule operates without ChatGPT. Never runs pull-request
+code. Public OSV advisory archive is downloaded BEFORE reading private
+lockfile contents; Docker scans lockfiles with --network none.
+"""
+from __future__ import annotations
+import argparse
+import json
+import os
+from pathlib import Path
+import re
+import subprocess
+import sys
+import time
+import tempfile
+import urllib.error
+import urllib.request
+import zipfile
+
+IMAGE = "ghcr.io/google/osv-scanner@sha256:a70ffffc2bfd33482953e5d6b64c6fcdb30239717a07b0f0d3ab2859ce3e4cde"
+MAX_LOCK_BYTES = 20_000_000
+TITLE = re.compile(r"\bbump\s+(\S+)\s+from\s+(\d+\.\d+\.\d+)\s+to\s+(\d+\.\d+\.\d+)\s*$", re.I)
+ALLOWED_FILES = {"package-lock.json", "package.json"}
+SAFE_RESULTS = {"success", "neutral", "skipped"}
+
+
+def parse_patch_title(title):
+    if not isinstance(title, str) or "group" in title.lower():
+        return None
+    match = TITLE.search(title)
+    if not match:
+        return None
+    name, before, after = match.groups()
+    if name.startswith("-") or name in (".", "..") or "/" in name.replace("@", "", 1) and not name.startswith("@"):
+        return None
+    a = tuple(int(x) for x in before.split("."))
+    b = tuple(int(x) for x in after.split("."))
+    if a[:2] != b[:2] or b[2] <= a[2]:
+        return None
+    return {"name": name, "from": before, "to": after}
+
+
+def allowed_pr(pr, repo, files):
+    if pr.get("user", {}).get("login") != "dependabot[bot]":
+        return False, "not Dependabot"
+    if pr.get("state") != "open" or pr.get("draft"):
+        return False, "not an open reviewable PR"
+    if pr.get("base", {}).get("ref") != "main":
+        return False, "not targeting main"
+    if str(pr.get("head", {}).get("repo", {}).get("full_name") or "").casefold() != repo.casefold():
+        return False, "unexpected source repository"
+    if not pr.get("head", {}).get("ref", "").startswith("dependabot/"):
+        return False, "unexpected source branch"
+    if pr.get("mergeable") is not True:
+        return False, "GitHub has not confirmed mergeability"
+    bump = parse_patch_title(pr.get("title"))
+    if not bump:
+        return False, "not one simple patch-level npm update"
+    paths = {item.get("filename") for item in files}
+    if not files or any(item.get("status") != "modified" for item in files):
+        return False, "new, renamed or deleted file"
+    if not paths.issubset(ALLOWED_FILES) or "package-lock.json" not in paths:
+        return False, "changes outside root npm manifests"
+    return True, bump
+
+
+def ci_green(checks, statuses, required_name):
+    if not isinstance(checks, dict) or checks.get("total_count", 0) > 100:
+        return False
+    rows = checks.get("check_runs") or []
+    if not rows or not any(x.get("name") == required_name and
+                           x.get("conclusion") == "success" for x in rows):
+        return False
+    if any(x.get("status") != "completed" or
+           x.get("conclusion") not in SAFE_RESULTS for x in rows):
+        return False
+    states = (statuses or {}).get("statuses") or []
+    return all(s.get("state") == "success" for s in states)
+
+
+def locked_versions(text, package):
+    data = json.loads(text)
+    matches = []
+    for key, info in (data.get("packages") or {}).items():
+        if not isinstance(info, dict) or "node_modules/" not in key:
+            continue
+        name = key.rsplit("node_modules/", 1)[-1]
+        if name == package and isinstance(info.get("version"), str):
+            matches.append(info["version"])
+    return sorted(set(matches))
+
+
+def advisories_for(results, package):
+    ids = set()
+    for src in results.get("results", []):
+        for entry in src.get("packages", []):
+            if entry.get("package", {}).get("name") != package:
+                continue
+            ids.update(v.get("id") for v in entry.get("vulnerabilities", [])
+                       if isinstance(v, dict) and isinstance(v.get("id"), str))
+            for group in entry.get("groups", []):
+                ids.update(x for x in group.get("ids", []) if isinstance(x, str))
+    return ids
+
+
+def api(repo, path, token, method="GET", body=None):
+    req = urllib.request.Request(
+        "https://api.github.com/repos/" + repo + "/" + path,
+        data=(json.dumps(body).encode() if body is not None else None),
+        headers={"Authorization": "Bearer " + token, "Accept": "application/vnd.github+json",
+                 "X-GitHub-Api-Version": "2022-11-28",
+                 "User-Agent": "autopatch-standalone-v1"},
+        method=method)
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        value = resp.read()
+        return json.loads(value) if value else {}
+
+
+def git_blob(sha, path):
+    # Only git protocol data is read. No npm install, build, eval or PR code.
+    subprocess.run(["git", "fetch", "--quiet", "--no-tags", "--depth=1", "origin", sha],
+                   check=True, timeout=90, capture_output=True)
+    data = subprocess.run(["git", "show", sha + ":" + path], check=True,
+                          timeout=20, capture_output=True).stdout
+    if not data or len(data) > MAX_LOCK_BYTES:
+        raise ValueError("missing or oversized exact lockfile")
+    return data
+
+
+def public_db(directory):
+    dest = directory / "osv-scalibr" / "npm" / "all.zip"
+    dest.parent.mkdir(parents=True)
+    tmp = dest.with_suffix(".partial")
+    try:
+        urllib.request.urlretrieve(
+            "https://osv-vulnerabilities.storage.googleapis.com/npm/all.zip", tmp)
+        with zipfile.ZipFile(tmp) as archive:
+            if not archive.namelist() or archive.testzip() is not None:
+                raise ValueError("public OSV database incomplete")
+        tmp.rename(dest)
+    finally:
+        tmp.unlink(missing_ok=True)
+
+
+def offline_scan(lock_bytes, db):
+    with tempfile.TemporaryDirectory(prefix="autopatch-private-") as temp:
+        root = Path(temp).resolve()
+        (root / "package-lock.json").write_bytes(lock_bytes)
+        command = [
+            "docker", "run", "--rm", "--network", "none", "--read-only",
+            "--user", f"{os.getuid()}:{os.getgid()}",
+            "--security-opt", "no-new-privileges", "--cap-drop", "ALL",
+            "--pids-limit", "128", "--memory", "1024m",
+            "--tmpfs", "/tmp:rw,noexec,nosuid,size=256m",
+            "--mount", f"type=bind,source={root},target=/src,readonly",
+            "--mount", f"type=bind,source={db.resolve()},target=/db,readonly",
+            "-e", "OSV_SCANNER_LOCAL_DB_CACHE_DIRECTORY=/db",
+            IMAGE, "scan", "source", "--offline", "--no-resolve",
+            "--format=json", "-L", "/src/package-lock.json",
+        ]
+        response = subprocess.run(command, capture_output=True, timeout=180)
+        if response.returncode not in (0, 1):
+            raise ValueError("isolated scanner did not complete successfully")
+        result = json.loads(response.stdout)
+        if not isinstance(result, dict) or not isinstance(result.get("results"), list):
+            raise ValueError("incomplete offline scanner JSON")
+        return result
+
+
+def independently_verified(old, new, bump, db):
+    before = locked_versions(old, bump["name"])
+    after = locked_versions(new, bump["name"])
+    if bump["from"] not in before or after != [bump["to"]]:
+        return False, "target not exclusively installed in updated lockfile"
+    old_ids = advisories_for(offline_scan(old, db), bump["name"])
+    new_ids = advisories_for(offline_scan(new, db), bump["name"])
+    if new_ids:
+        return False, "target still has known OSV advisories"
+    return True, f"offline advisory check passed; resolved {len(old_ids)} known advisory ID(s)"
+
+
+def refresh_stale_pr(repo, pr, token, workflow_file, *, api_call=api, pause=time.sleep):
+    """Refresh stale Dependabot patch as data, then run read-only QA against its new SHA.
+
+    GitHub's workflow token won't reliably trigger another workflow on a branch
+    update. Explicit workflow_dispatch is an exception to that restriction.
+    Neither an update nor a dispatch is a merge. No PR code runs in this worker.
+    """
+    if not re.fullmatch(r"[A-Za-z0-9_.-]+\.yml", workflow_file or ""):
+        raise ValueError("a known, scoped read-only QA workflow is required")
+    number, old_sha = pr["number"], pr["head"]["sha"]
+    api_call(repo, f"pulls/{number}/update-branch", token, "PUT",
+             {"expected_head_sha": old_sha})
+    for _ in range(10):
+        updated = api_call(repo, f"pulls/{number}", token)
+        if updated["head"]["sha"] != old_sha:
+            if updated["base"]["sha"] != api_call(repo, "git/ref/heads/main", token)["object"]["sha"]:
+                raise ValueError("updated PR branch base still stale")
+            api_call(repo, f"actions/workflows/{workflow_file}/dispatches", token,
+                     "POST", {"ref": updated["head"]["ref"]})
+            return "REBASED_CI_DISPATCHED"
+        pause(2)
+    return "REBASE_PENDING_NEXT_RUN"
+
+
+def process(repo, token, required_check, dry_run=False, verification_workflow=None):
+    assert repo == os.environ.get("GITHUB_REPOSITORY"), "repository identity mismatch"
+    prs = api(repo, "pulls?state=open&per_page=100", token)
+    outcomes = []
+    with tempfile.TemporaryDirectory(prefix="autopatch-public-db-") as temp:
+        db = Path(temp)
+        prepared = False
+        for candidate in prs[:100]:
+            if candidate.get("user", {}).get("login") != "dependabot[bot]":
+                continue
+            number = candidate["number"]
+            result = {"pr": number, "status": "BLOCKED"}
+            stage = "read_pr"
+            try:
+                pr = api(repo, f"pulls/{number}", token)
+                stage = "read_files"
+                files = api(repo, f"pulls/{number}/files?per_page=100", token)
+                if pr.get("changed_files", 0) > len(files):
+                    raise ValueError("file listing incomplete")
+                stage = "pr_scope"
+                okay, info = allowed_pr(pr, repo, files)
+                if not okay:
+                    result["scope_reason"] = str(info)
+                    raise ValueError("rejected scope")
+                sha = pr["head"]["sha"]
+                stage = "base_head"
+                main_head = api(repo, "git/ref/heads/main", token)["object"]["sha"]
+                if pr["base"]["sha"] != main_head:
+                    if dry_run:
+                        result["status"] = "STALE_BRANCH_DRY_RUN"
+                        result["reason"] = "rebase and independent CI required"
+                    else:
+                        stage = "refresh_stale_branch"
+                        result["status"] = refresh_stale_pr(
+                            repo, pr, token, verification_workflow)
+                        result["reason"] = "fresh CI required; no merge attempted"
+                    outcomes.append(result)
+                    if len(outcomes) >= 15:
+                        break
+                    continue
+                stage = "read_checks"
+                checks = api(repo, f"commits/{sha}/check-runs?per_page=100", token)
+                stage = "read_statuses"
+                statuses = api(repo, f"commits/{sha}/status", token)
+                stage = "ci_green"
+                if not ci_green(checks, statuses, required_check):
+                    raise ValueError("required CI missing, incomplete or failing")
+                if not prepared:
+                    stage = "public_advisory_download"
+                    public_db(db)  # BEFORE private repo lockfiles are opened
+                    prepared = True
+                stage = "private_lockfile_fetch"
+                old = git_blob(pr["base"]["sha"], "package-lock.json")
+                new = git_blob(sha, "package-lock.json")
+                stage = "offline_vulnerability_check"
+                passed, why = independently_verified(old, new, info, db)
+                if not passed:
+                    raise ValueError(why)
+                result["status"] = "ELIGIBLE_DRY_RUN" if dry_run else "VERIFIED_SOURCE_PATCH"
+                result["reason"] = why
+                if not dry_run:
+                    stage = "premerge_revalidation"
+                    latest = api(repo, f"pulls/{number}", token)
+                    if latest["head"]["sha"] != sha or latest.get("mergeable") is not True:
+                        raise ValueError("head changed since verification")
+                    stage = "merge_request"
+                    merged = api(repo, f"pulls/{number}/merge", token, "PUT",
+                                 {"merge_method": "squash", "sha": sha})
+                    if not merged.get("merged"):
+                        raise ValueError("GitHub declined merge")
+                    result["status"] = "SOURCE_MERGED_DEPLOYMENT_UNVERIFIED"
+                    # GITHUB_TOKEN merges may not start a new push workflow.
+                    # Never claim production is verified or that a rollback occurred.
+            except (ValueError, KeyError, TypeError, urllib.error.HTTPError,
+                    urllib.error.URLError, subprocess.CalledProcessError,
+                    subprocess.TimeoutExpired, json.JSONDecodeError, OSError) as exc:
+                # Safe phase code only: never include HTTP responses, file contents,
+                # private package identities, credential strings or source paths.
+                result["status"] = "BLOCKED"
+                result["reason"] = ("pr_scope:" + result.pop("scope_reason")
+                                    if stage == "pr_scope" and result.get("scope_reason")
+                                    else f"{stage}:HTTP_{exc.code}"
+                                    if isinstance(exc, urllib.error.HTTPError)
+                                    else f"{stage}:{type(exc).__name__}")
+            outcomes.append(result)
+            if len(outcomes) >= 15:
+                break
+    return outcomes
+
+
+def main():
+    p = argparse.ArgumentParser()
+    p.add_argument("--required-check", required=True)
+    p.add_argument("--dry-run", action="store_true")
+    p.add_argument("--verification-workflow", default=None,
+                   help="existing safe CI workflow for stale-branch retesting")
+    args = p.parse_args()
+    repo, token = os.environ.get("GITHUB_REPOSITORY", ""), os.environ.get("GH_TOKEN", "")
+    if not repo or not token:
+        raise SystemExit("BLOCKED: repository identity or automation token missing")
+    rows = process(repo, token, args.required_check, args.dry_run,
+                   verification_workflow=args.verification_workflow)
+    for row in rows:
+        print(f"PR #{row['pr']}: {row['status']}: {row.get('reason','')}")
+    print(f"AutoPatch self-running gate: {len(rows)} Dependabot PRs assessed; "
+          f"{sum(x['status']=='SOURCE_MERGED_DEPLOYMENT_UNVERIFIED' for x in rows)} source merges.")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

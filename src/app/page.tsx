@@ -24,8 +24,8 @@ export default async function Home() {
           <p>See the full roadmap: first aid, child health, medicines, heart, sleep, exercise, nutrition, mental health, neurodivergence, pregnancy, aged care, workplace health and more.</p>
         </article>
         <article className="card">
-          <h2><Link href="/health-reference/resources">Listen, watch and read</Link></h2>
-          <p>Open curated podcasts, videos, Australian guidelines, trusted references and deeper research.</p>
+          <h2><Link href="/listen">Listen: oral-health podcasts</Link></h2>
+          <p>Discover verified oral-health podcast episodes and publisher listening links.</p>
         </article>
         <article className="card">
           <h2><Link href="/health-reference/research">Explore the research backend</Link></h2>
