@@ -215,5 +215,42 @@ class PolicyTests(unittest.TestCase):
                                 "quality-gates.yml", api_call=fake_api)
 
 
+    def test_merge_denial_exposes_only_http_status_never_response(self):
+        import io
+        import urllib.error
+        pr = candidate()
+        calls = []
+        def fake_api(repo, path, token, method="GET", body=None):
+            calls.append((path, method))
+            if path.startswith("pulls?"):
+                return [pr]
+            if path == "pulls/16":
+                return pr
+            if path == "pulls/16/files?per_page=100":
+                return [{"filename": "package-lock.json", "status": "modified"}]
+            if path == "git/ref/heads/main":
+                return {"object": {"sha": OLD}}
+            if "check-runs" in path:
+                return {"total_count": 1, "check_runs": [
+                    {"name": "quality", "status": "completed", "conclusion": "success"}]}
+            if path.endswith("/status"):
+                return {"statuses": []}
+            if path.endswith("/merge"):
+                raise urllib.error.HTTPError(
+                    "https://api.github.com", 405,
+                    "Never log private failure details", {}, io.BytesIO(b"secret"))
+            raise AssertionError(path)
+        with patch.dict(os.environ, {"GITHUB_REPOSITORY": REPO}), \
+             patch.object(m, "api", side_effect=fake_api), \
+             patch.object(m, "public_db"), \
+             patch.object(m, "git_blob", return_value=b"{}"), \
+             patch.object(m, "independently_verified", return_value=(True, "clean")):
+            outcome = m.process(REPO, "fake-token", "quality", dry_run=False)
+        self.assertEqual(outcome[0]["status"], "BLOCKED")
+        self.assertEqual(outcome[0]["reason"], "merge_request:HTTP_405")
+        self.assertNotIn("secret", str(outcome))
+        self.assertEqual(sum(p.endswith("/merge") for p, _ in calls), 1)
+
+
 if __name__ == "__main__":
     unittest.main()
