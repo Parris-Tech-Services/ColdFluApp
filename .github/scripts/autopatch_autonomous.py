@@ -48,7 +48,7 @@ def allowed_pr(pr, repo, files):
         return False, "not an open reviewable PR"
     if pr.get("base", {}).get("ref") != "main":
         return False, "not targeting main"
-    if pr.get("head", {}).get("repo", {}).get("full_name") != repo:
+    if str(pr.get("head", {}).get("repo", {}).get("full_name") or "").casefold() != repo.casefold():
         return False, "unexpected source repository"
     if not pr.get("head", {}).get("ref", "").startswith("dependabot/"):
         return False, "unexpected source branch"
@@ -202,7 +202,8 @@ def process(repo, token, required_check, dry_run=False):
                 stage = "pr_scope"
                 okay, info = allowed_pr(pr, repo, files)
                 if not okay:
-                    raise ValueError(info)
+                    result["scope_reason"] = str(info)
+                    raise ValueError("rejected scope")
                 sha = pr["head"]["sha"]
                 stage = "read_checks"
                 checks = api(repo, f"commits/{sha}/check-runs?per_page=100", token)
@@ -246,7 +247,9 @@ def process(repo, token, required_check, dry_run=False):
                 # Safe phase code only: never include HTTP responses, file contents,
                 # private package identities, credential strings or source paths.
                 result["status"] = "BLOCKED"
-                result["reason"] = f"{stage}:{type(exc).__name__}"
+                result["reason"] = ("pr_scope:" + result.pop("scope_reason")
+                                    if stage == "pr_scope" and result.get("scope_reason")
+                                    else f"{stage}:{type(exc).__name__}")
             outcomes.append(result)
             if len(outcomes) >= 15:
                 break

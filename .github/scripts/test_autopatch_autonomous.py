@@ -45,6 +45,7 @@ class PolicyTests(unittest.TestCase):
         pr = candidate()
         file = [{"filename": "package-lock.json", "status": "modified"}]
         self.assertTrue(m.allowed_pr(pr, REPO, file)[0])
+        self.assertTrue(m.allowed_pr(pr, REPO.swapcase(), file)[0])
         for change in (
             {"user": {"login": "any-human"}},
             {"head": {"ref": "dependabot/patch", "repo": {"full_name": "other/fork"}}},
