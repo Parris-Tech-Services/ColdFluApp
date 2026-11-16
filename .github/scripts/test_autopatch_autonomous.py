@@ -113,6 +113,7 @@ class PolicyTests(unittest.TestCase):
              patch.object(m, "independently_verified", return_value=(False, "unresolved")):
             outcome = m.process(REPO, "fake-token", "verify", dry_run=False)
         self.assertEqual(outcome[0]["status"], "BLOCKED")
+        self.assertEqual(outcome[0]["reason"], "offline_vulnerability_check:ValueError")
 
     def test_clean_verified_patch_can_use_dry_run_without_merging(self):
         pr = candidate()

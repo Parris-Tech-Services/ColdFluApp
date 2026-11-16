@@ -192,35 +192,47 @@ def process(repo, token, required_check, dry_run=False):
                 continue
             number = candidate["number"]
             result = {"pr": number, "status": "BLOCKED"}
+            stage = "read_pr"
             try:
                 pr = api(repo, f"pulls/{number}", token)
+                stage = "read_files"
                 files = api(repo, f"pulls/{number}/files?per_page=100", token)
                 if pr.get("changed_files", 0) > len(files):
                     raise ValueError("file listing incomplete")
+                stage = "pr_scope"
                 okay, info = allowed_pr(pr, repo, files)
                 if not okay:
                     raise ValueError(info)
                 sha = pr["head"]["sha"]
+                stage = "read_checks"
                 checks = api(repo, f"commits/{sha}/check-runs?per_page=100", token)
+                stage = "read_statuses"
                 statuses = api(repo, f"commits/{sha}/status", token)
+                stage = "ci_green"
                 if not ci_green(checks, statuses, required_check):
                     raise ValueError("required CI missing, incomplete or failing")
+                stage = "base_head"
                 if pr["base"]["sha"] != api(repo, "git/ref/heads/main", token)["object"]["sha"]:
                     raise ValueError("default branch moved; refresh PR")
                 if not prepared:
+                    stage = "public_advisory_download"
                     public_db(db)  # BEFORE private repo lockfiles are opened
                     prepared = True
+                stage = "private_lockfile_fetch"
                 old = git_blob(pr["base"]["sha"], "package-lock.json")
                 new = git_blob(sha, "package-lock.json")
+                stage = "offline_vulnerability_check"
                 passed, why = independently_verified(old, new, info, db)
                 if not passed:
                     raise ValueError(why)
                 result["status"] = "ELIGIBLE_DRY_RUN" if dry_run else "VERIFIED_SOURCE_PATCH"
                 result["reason"] = why
                 if not dry_run:
+                    stage = "premerge_revalidation"
                     latest = api(repo, f"pulls/{number}", token)
                     if latest["head"]["sha"] != sha or latest.get("mergeable") is not True:
                         raise ValueError("head changed since verification")
+                    stage = "merge_request"
                     merged = api(repo, f"pulls/{number}/merge", token, "PUT",
                                  {"merge_method": "squash", "sha": sha})
                     if not merged.get("merged"):
@@ -230,12 +242,11 @@ def process(repo, token, required_check, dry_run=False):
                     # Never claim production is verified or that a rollback occurred.
             except (ValueError, KeyError, TypeError, urllib.error.HTTPError,
                     urllib.error.URLError, subprocess.CalledProcessError,
-                    subprocess.TimeoutExpired, json.JSONDecodeError, OSError):
-                if result["status"] == "BLOCKED":
-                    result["reason"] = "candidate failed safety, access or verification gate"
-                else:
-                    result["status"] = "BLOCKED"
-                    result["reason"] = "merge operation failed; inspect GitHub PR state"
+                    subprocess.TimeoutExpired, json.JSONDecodeError, OSError) as exc:
+                # Safe phase code only: never include HTTP responses, file contents,
+                # private package identities, credential strings or source paths.
+                result["status"] = "BLOCKED"
+                result["reason"] = f"{stage}:{type(exc).__name__}"
             outcomes.append(result)
             if len(outcomes) >= 15:
                 break
