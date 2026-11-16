@@ -55,6 +55,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      actions: write
       checks: read
       statuses: read
     steps:
@@ -74,9 +75,9 @@ jobs:
           EVENT_NAME: ${{ github.event_name }}
         run: |
           if [[ "$EVENT_NAME" == push ]] || [[ "$EVENT_NAME" == workflow_dispatch && "$REQUEST_DRY_RUN" == true ]]; then
-            python .github/scripts/autopatch_autonomous.py --required-check quality --dry-run
+            python .github/scripts/autopatch_autonomous.py --required-check quality --verification-workflow quality-gates.yml --dry-run
           else
-            python .github/scripts/autopatch_autonomous.py --required-check quality
+            python .github/scripts/autopatch_autonomous.py --required-check quality --verification-workflow quality-gates.yml
           fi
       - name: Explain unattended source-only scope
         if: always()
