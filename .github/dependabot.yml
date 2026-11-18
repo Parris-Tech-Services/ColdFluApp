@@ -16,8 +16,12 @@ updates:
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
+    cooldown:
+      default-days: 7
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: monthly
       timezone: Australia/Sydney
+    cooldown:
+      default-days: 7
