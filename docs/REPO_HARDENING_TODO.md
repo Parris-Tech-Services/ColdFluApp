@@ -14,26 +14,26 @@ This file captures repository-level gaps raised during the independent Claude co
 
 ## Governance
 
-- [ ] Add `CODEOWNERS` once the actual accountable clinical/evidence/editorial reviewer GitHub identities are known. Do not invent reviewer ownership merely to satisfy a repository control.
-- [ ] Add or tighten a pull-request template for health-content changes: content status, source verification, population/jurisdiction, safety/triage impact, reviewer status and whether personal information is present.
-- [ ] Choose licensing deliberately. Consider whether code and public educational content should use different licences; do not assume public repository visibility grants reuse rights.
+- [ ] **UN-20261024-023-0017** Add `CODEOWNERS` once the actual accountable clinical/evidence/editorial reviewer GitHub identities are known. Do not invent reviewer ownership merely to satisfy a repository control.
+- [ ] **UN-20261024-023-0018** Add or tighten a pull-request template for health-content changes: content status, source verification, population/jurisdiction, safety/triage impact, reviewer status and whether personal information is present.
+- [ ] **UN-20261024-023-0019** Choose licensing deliberately. Consider whether code and public educational content should use different licences; do not assume public repository visibility grants reuse rights.
 
 ## Evidence schema
 
-- [ ] Add source-verification depth/status so a search-snippet lead cannot look equivalent to a source that has been opened, read and checked in full.
-- [ ] Extend claim outcomes beyond the early respiratory prototype. At minimum consider symptom frequency, symptom severity, sleep disruption, function, quality of life, diagnostic accuracy, disease activity/progression, hospitalisation and mortality where relevant.
-- [ ] Keep source verification status separate from evidence certainty: a high-quality study can still be only partially verified during intake.
+- [ ] **UN-20261024-023-0023** Add source-verification depth/status so a search-snippet lead cannot look equivalent to a source that has been opened, read and checked in full.
+- [ ] **UN-20261024-023-0024** Extend claim outcomes beyond the early respiratory prototype. At minimum consider symptom frequency, symptom severity, sleep disruption, function, quality of life, diagnostic accuracy, disease activity/progression, hospitalisation and mortality where relevant.
+- [ ] **UN-20261024-023-0025** Keep source verification status separate from evidence certainty: a high-quality study can still be only partially verified during intake.
 
 ## Imported/unverified material
 
-- [ ] Review Dependabot/security-update behaviour for lockfiles nested inside `inputs/` and other deliberately unverified imported packages. Avoid spending maintenance effort on archived prototypes unless those dependencies are actually built or shipped.
-- [ ] If a nested lockfile is removed from an unverified import to prevent automated dependency churn, preserve enough provenance to reconstruct what was received and document the decision.
-- [ ] Keep Claude/ChatGPT external returns unchanged under `inputs/agent-returns/...` and promote only source-checked claims into canonical content.
+- [ ] **UN-20261024-023-0029** Review Dependabot/security-update behaviour for lockfiles nested inside `inputs/` and other deliberately unverified imported packages. Avoid spending maintenance effort on archived prototypes unless those dependencies are actually built or shipped.
+- [ ] **UN-20261024-023-0030** If a nested lockfile is removed from an unverified import to prevent automated dependency churn, preserve enough provenance to reconstruct what was received and document the decision.
+- [ ] **UN-20261024-023-0031** Keep Claude/ChatGPT external returns unchanged under `inputs/agent-returns/...` and promote only source-checked claims into canonical content.
 
 ## Dependency/security hygiene
 
-- [ ] Investigate the dependency vulnerabilities reported by `npm ci`/`npm audit` in CI and determine which are runtime, development-only or inherited from tooling before applying updates. Do not use an indiscriminate major-version `npm audit fix` on a health-information app.
-- [ ] Re-run the full quality and E2E suite after dependency remediations.
+- [ ] **UN-20261024-023-0035** Investigate the dependency vulnerabilities reported by `npm ci`/`npm audit` in CI and determine which are runtime, development-only or inherited from tooling before applying updates. Do not use an indiscriminate major-version `npm audit fix` on a health-information app.
+- [ ] **UN-20261024-023-0036** Re-run the full quality and E2E suite after dependency remediations.
 
 ## Broader-scope consequence
 
