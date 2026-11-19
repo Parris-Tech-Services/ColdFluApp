@@ -1,0 +1,21 @@
+{
+  "id": "accp-reflux-cough-guideline-afp-summary",
+  "type": "guideline",
+  "title": "Reflux-Cough Syndrome: Guidelines from the ACCP (summary)",
+  "authorsOrOrganisation": [
+    "American Academy of Family Physicians",
+    "American College of Chest Physicians"
+  ],
+  "publication": "American Family Physician",
+  "publishedAt": "2017-11-01",
+  "updatedAt": null,
+  "doi": null,
+  "url": "https://www.aafp.org/pubs/afp/issues/2017/1101/p611.html",
+  "accessedAt": "2026-09-15",
+  "jurisdiction": "GLOBAL",
+  "language": "en",
+  "peerReviewed": true,
+  "retractedOrCorrected": false,
+  "verificationStatus": "unverified-lead-snippet-only",
+  "notes": "This is a SUMMARY of the ACCP guideline, not the guideline itself. The primary Kahrilas et al. CHEST guideline must be located and cited directly before promotion."
+}

@@ -1,0 +1,20 @@
+{
+  "id": "cfp-2023-bronchodilators-ics-postinfectious-cough",
+  "type": "systematic_review",
+  "title": "Bronchodilators or inhaled corticosteroids for postinfectious cough (Tools for Practice)",
+  "authorsOrOrganisation": [
+    "College of Family Physicians of Canada"
+  ],
+  "publication": "Canadian Family Physician",
+  "publishedAt": "2023-03-01",
+  "updatedAt": null,
+  "doi": null,
+  "url": "https://www.cfp.ca/content/69/3/180",
+  "accessedAt": "2026-09-15",
+  "jurisdiction": "CA",
+  "language": "en",
+  "peerReviewed": true,
+  "retractedOrCorrected": false,
+  "verificationStatus": "unverified-lead-snippet-only",
+  "notes": "Evidence-synthesis summary, not a primary systematic review. Carries the SMD 0.42 figure and the placebo-response context. Underlying reviews should be cited directly."
+}
